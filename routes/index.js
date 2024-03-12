@@ -1,9 +1,30 @@
 var express = require('express');
 var router = express.Router();
 
+//connect to posts database (lines 5-23)
+var mysql = require('mysql');
+var connection = mysql.createConnection(
+{
+	host	: 'localhost',
+	user	: 'bbuser', //to be set by developers
+	password: 'bbpassword', //to be set by developers
+	database: 'posts'
+});
+
+connection.connect(function(err) 
+{
+	if (err) 
+	{
+		console.error('error connecting: ' + err.stack);
+		return;
+	}
+	
+	console.log('connected as id ' + connection.threadId);
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) 
-{
+{	
   res.render('index', { title: 'Home', active_page: 'home' });
 });
 
