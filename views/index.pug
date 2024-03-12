@@ -2,5 +2,95 @@ extends layout
 
 block content
 	div.body
-		h1= title
-		p Welcome to #{title}
+		div(class="row")
+			div(class="col-sm banner")
+				h2 BANNER
+		
+		br
+		
+		div(class="row")
+			//Who We Are
+			div(class="row")
+				div(class="col-sm-2")
+				
+				//Text
+				div(class="col-sm-4 outline right")
+					p(class="space") space
+					h2 #[strong Who We Are]
+					p.
+						The Santa Barbara Bucket Brigade formed as a community volunteer response to the tragic debris flow of January 9, 2018, which devastated the community of 
+						Montecito in Santa Barbara County, CA. The disaster caused 23 fatalities and more than 150 injuries.  More than 100 homes were destroyed and an additional 
+						400 homes were damaged. In the aftermath of this disaster the Bucket Brigade emerged from the mud, leading an army of caring neighbors to dig out homes, clear 
+						and restore open spaces, restore old trails and blaze new ones to reconnect the community. The goal was simple: help our neighbors in their immediate time of 
+						need. Despite the overwhelming grief, our collective instinct toward action kicked in and we started digging together.
+				
+				//Videos
+				div(class="col-sm-4 outline")
+					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
+					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/sSerjfSAANg?autoplay=1&origin=http://example.com' frameborder='0')
+				
+				div(class="col-sm-2")
+			
+			//Volunteer Opportunities
+			br
+			div(class="row")
+				div(class="col-sm")
+					p(class="space") space
+			div(class="row")
+				div(class="col-sm-2")
+				div(class="col-sm-8 outline")
+					h2(style="text-align:center") #[strong Volunteer Opportunities]
+					p(style="text-align:center"). 
+						Want to get involved? There are lots of opportunities to volunteer with the Bucket Brigade. You can work in the Bucket Brigade Community Garden at Elings Park or 
+						sign up for community deployments. Just check the #[a(href="/volunteer-hub") calendar].
+						The Bucket Brigade brings the tools, donuts, and pizza and you bring yourself and a positive attitude.
+				div(class="col-sm-2")
+			div(class="row")
+				div(class="col-sm")
+					p(class="space") space
+			div(class="row")
+				div(class="col-sm-2")
+				
+				// Garden
+				div(class="col-sm outline")
+					p(style="text-align:center") #[strong Garden]
+				
+				// Community
+				div(class="col-sm outline")
+					p(style="text-align:center") #[strong Community]
+				
+				// Academy
+				div(class="col-sm outline")
+					p(style="text-align:center") #[strong Academy]
+				
+				div(class="col-sm-2")
+				
+			// Academy Info
+			br
+			div(class="row")
+				div(class="col-sm")
+					p(class="space") space
+			
+			div(class="row")
+				div(class="col-sm-2")
+				
+				// Video
+				div(class="col-sm-4 outline")
+					p(class="space") space
+					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/-K_JN8zvVvk?autoplay=1&origin=http://example.com' frameborder='0')
+				
+				// Info
+				div(class="col-sm-4 outline")
+					h2 #[strong Bucket Brigade Academy]
+					p. 
+						If you want to get more involved with Bucket Brigade, you can apply to join the Bucket Brigade Academy this summer. Bucket Brigade Academy prepares teens to be 
+						leaders in their communities by teaching them how to organize, train, and deploy the power of community in response to natural disasters and crises. Academy 
+						graduates will leave the programs with an understanding of the skills and abilities required to lead during a community crisis as well as to lead community 
+						service projects here in Santa Barbara County and beyond. Learn more #[a(href="https://academy.sbbucketbrigade.org/") here].
+				
+				div(class="col-sm-2")
+			
+			
+				
+				
+		
