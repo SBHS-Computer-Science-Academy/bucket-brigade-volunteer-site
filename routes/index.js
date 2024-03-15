@@ -18,9 +18,27 @@ connection.connect(function(err)
 		console.error('error connecting: ' + err.stack);
 		return;
 	}
-	
 	console.log('connected as id ' + connection.threadId);
 });
+
+// Handle form submission
+router.post('/submit_form', (req, res) => 
+{
+  const { name, grade, school, anonymous, date, work, story, media } = req.body;
+
+  // Insert data into MySQL database
+  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}')`;
+  console.log(req["body"]);
+  
+  connection.query(query, (error, results) => 
+  {
+    if (error) throw error;
+    res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
+  });
+  
+  //res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
+});
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) 
@@ -52,3 +70,6 @@ router.get('/moderator', function(req, res, next)
 });
 
 module.exports = router;
+
+
+// Trying to connect post-submission form to the database
