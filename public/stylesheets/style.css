@@ -39,6 +39,17 @@ div.body
 	float: right;
 }
 
+.btn-left 
+{
+	float: left;
+}
+
+span 
+{
+	display: inline;
+	padding: 10px;
+}
+
 a {
   color: #00B7FF;
 }
