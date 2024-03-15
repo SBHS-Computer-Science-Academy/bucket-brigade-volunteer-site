@@ -27,7 +27,7 @@ router.post('/submit_form', (req, res) =>
   const { name, grade, school, anonymous, date, work, story, media } = req.body;
 
   // Insert data into MySQL database
-  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}')`;
+  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}', 'not approved')`;
   console.log(req["body"]);
   
   connection.query(query, (error, results) => 
