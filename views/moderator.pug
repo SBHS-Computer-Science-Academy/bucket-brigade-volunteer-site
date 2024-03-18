@@ -7,12 +7,14 @@ block content
 			
 			
 			div(class="col-sm-7")
+				div(class="row")
+					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
 				div(class="card")
-					div(class="card-header")
-						img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:50%" class="float-start")
-						img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:50%" class="float-end")
-						img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:50%" class="float-start")
-						iframe(type='text/html' width='50%' height='280px' src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0' class="float-end")
+					div(class="card-header grid")
+						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
+						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
+						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
+						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
 					div(class="card-body")
 						h3 #[strong Header]
 						p(style="font-size:24px").
@@ -21,8 +23,8 @@ block content
 							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
 							dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 						div.btn-group
-							button(type="button" class="btn btn-success btn-lg") #[strong Approve]
-							button(type="button" class="btn btn-danger btn-lg") #[strong Deny]
+							button(type="button" class="btn btn-success btn-lg") #[strong Approve Selected]
+							button(type="button" class="btn btn-danger btn-lg") #[strong Deny All]
 				
 			div(class="col-sm-3")
 				span
@@ -36,5 +38,8 @@ block content
 				span
 					h3(style="float:left") #[strong Moderator 3]
 					button(type="button" class="btn btn-danger" style="float:right") #[strong Remove Moderator]
+				h3.space space
+				div(class="d-grid")
+					button(type="button" class="btn btn-success btn-block") #[strong Add New Moderator]
 			
 			div(class="col-sm-1")
