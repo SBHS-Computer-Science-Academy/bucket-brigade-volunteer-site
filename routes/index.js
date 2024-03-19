@@ -1,9 +1,48 @@
 var express = require('express');
 var router = express.Router();
 
+//connect to posts database (lines 5-23)
+var mysql = require('mysql');
+var connection = mysql.createConnection(
+{
+	host	: 'localhost',
+	user	: 'bbuser', //to be set by developers
+	password: 'bbpassword', //to be set by developers
+	database: 'posts'
+});
+
+connection.connect(function(err) 
+{
+	if (err) 
+	{
+		console.error('error connecting: ' + err.stack);
+		return;
+	}
+	console.log('connected as id ' + connection.threadId);
+});
+
+// Handle form submission
+router.post('/submit_form', (req, res) => 
+{
+  const { name, grade, school, anonymous, date, work, story, media } = req.body;
+
+  // Insert data into MySQL database
+  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}')`;
+  console.log(req["body"]);
+  
+  connection.query(query, (error, results) => 
+  {
+    if (error) throw error;
+    res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
+  });
+  
+  //res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
+});
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) 
-{
+{	
   res.render('index', { title: 'Home', active_page: 'home' });
 });
 
@@ -37,27 +76,20 @@ router.use(session({
 	secret: 'SECRET' //TODO CHANGE THIS TO ACCESS TO AN ENVIRONMENT VARIABLE
 }));
 
-/*
-var sess = {
-	secret: 'SECRET',
-	cookie: {}
-}
-
-router.use(session(sess))
-*/
-
 module.exports = router;
 
 function getModerator(email){
 	return new Promise(function(resolve,reject) {
-		connection.query("SELECT * FROM 'modemails' WHERE 'email' = "+email, function (error, results, fields) {
-			console.log(results);
-			let modEmail = results[0]['email'];
-			console.log(modEmail);
+		connection.query("SELECT * FROM modemails WHERE email = '"+email+"';", function (error, results, fields) {
+			if(results.length == 0){
+				resolve (false);
+			}
+			else{
+				resolve(true);
+			}
 			if (error) {
 				return reject(error);
 			}
-			resolve(modEmail);
 		});
 	});
 }
@@ -69,21 +101,25 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.get('/moderator-logged-in', async function(req, res, next) 
-{	console.log(userProfile);
-	if(userProfile){
+{	
+	console.log(userProfile);
+	if(req.isAuthenticated())
+	{
 		email = userProfile['_json']['email'];
 		modEmail = await getModerator(email);
-		if(email == modEmail){
+		if(modEmail == true)
+		{
 			res.render('moderator-logged-in');//if user is logged in with approved email
-			}
-			else{
-				res.render('index.pug');//if user logged in the mod login and email isn't in the moderator database
-			}
-}
-			else{
-				res.render('moderator');//if user is not logged in and tries to access logged in mod site
-			}
-  res.render('moderator-logged-in');
+		}
+		else
+		{
+			res.redirect('/');//if user logged in the mod login and email isn't in the moderator database
+		}
+	}
+	else
+	{
+			res.redirect('/moderator');//if user is not logged in and tries to access logged in mod site
+	}
 });
 router.get('/moderator-error', (req, res) => res.send("error logging in"));
 
@@ -108,6 +144,13 @@ passport.use(new GoogleStrategy({
       return done(null, userProfile);
   }
 ));
+
+router.post("/logout", (req,res) => {
+	req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/moderator');
+	});
+})
  
 router.get('/auth/google', 
   passport.authenticate('google', { scope : ['profile', 'email'] }));
@@ -118,3 +161,5 @@ router.get('/auth/google/callback',
     // Successful authentication, redirect success.
     res.redirect('/moderator-logged-in');
   });
+
+// Trying to connect post-submission form to the database

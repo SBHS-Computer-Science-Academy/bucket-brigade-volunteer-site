@@ -1,6 +1,42 @@
-div.body {
+div.body 
+{
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.banner 
+{
+	text-align: center;
+	padding: 50px;
+	border-style: solid;
+}
+
+.outline 
+{
+	padding: 15px;
+	font-size: 24px;
+	/*border-style: solid;
+	border-color: gray;*/
+}
+
+.navbar 
+{
+	font-size: 20px;
+}
+
+.space 
+{
+	color: #FFFFFF;
+}
+
+.right 
+{
+	text-align: right;
+}
+
+.btn-right 
+{
+	float: right;
 }
 
 a {

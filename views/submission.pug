@@ -2,5 +2,56 @@ extends layout
 
 block content
 	div.body
-		h1= title
-		p Welcome to #{title}
+		h1= "Create your post"
+		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
+		
+		
+		form(action="/submit_form", method="POST" onsubmit="return showPopupAndRedirect()")
+			p
+				label(for="name") What is your first and last name?:
+				input(type="text", name="name", placeholder="", required)
+			p
+				label(for="grade") What grade are you in?:
+				select(name="grade", required)
+					option(value="")
+					option(value="7") 7
+					option(value="8") 8
+					option(value="9") 9
+					option(value="10") 10
+					option(value="11") 11
+					option(value="12") 12
+			p
+				label(for="school") What school do you go to?:
+				input(type="text", name="school", placeholder="")
+			p
+				label(for="anonymous") Would you like this submission to be anonymous once it's posted:
+				select(name="anonymous", required)
+					option(value="")
+					option(value="yes") yes
+					option(value="no") no
+			p
+				label(for="date") When did you volunteer:
+				input(type="text", name="date", placeholder="", required)
+			p
+				label(for="work") What volunteering did you do?:
+				select(name="work", required)
+					option(value="")
+					option(value="humanitarian garden") Humanitarian Garden
+					option(value="academy") Academy
+					option(value="post-disaster community restoration and assistance") Post-disaster community restoration and assistance"
+			p
+				label(for="story") Write your review/story/experience below:
+				input(type="text", name="story", placeholder="")
+			p
+				label(for="media") Upload photos/videos below:
+				input(type="text", name="media", placeholder="")
+			input(type="submit")
+		
+		script.
+			function showPopupAndRedirect()
+			{
+				/*alert("Your post is under review!");
+				window.location.href = "/volunteer-experiences";
+				return false;*/
+			}
+		
