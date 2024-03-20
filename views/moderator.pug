@@ -10,13 +10,15 @@ block content
 				div(class="row")
 					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
 				div(class="card")
-					div(class="card-header grid")
-						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-						img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
+					div(class="card-header")
+						div.grid
+							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item" data-bs-toggle="modal" data-bs-target="#myModal")
+							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item" data-bs-toggle="modal" data-bs-target="#myModal")
+							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item" data-bs-toggle="modal" data-bs-target="#myModal")
+							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item" data-bs-toggle="modal" data-bs-target="#myModal")
+						button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
 					div(class="card-body")
-						h3 #[strong Header]
+						h3 #[strong Header]  
 						p(style="font-size:24px").
 							Text Box --
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
@@ -43,3 +45,13 @@ block content
 					button(type="button" class="btn btn-success btn-block") #[strong Add New Moderator]
 			
 			div(class="col-sm-1")
+			
+		div(class="modal" id="myModal")
+			div(class="modal-dialog modal-dialog-centered")
+				div(class="modal-content")
+
+					div(class="modal-body")
+						img(src="/images/placeholder2.png" alt="placeholder image" style="width:100%")
+						
+					div(class="modal-footer")
+						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close
