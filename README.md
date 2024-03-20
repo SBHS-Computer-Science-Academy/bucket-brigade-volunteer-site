@@ -34,3 +34,14 @@ GRANT ALL
 ALTER USER 'bbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bbpassword';
 
 FLUSH PRIVILEGES;
+
+##DIRECTIONS FOR INSTALLING REQUIRED PACKAGES
+
+RUN THROUGH COMMAND PROMPT
+
+npm install express ejs express-session passport passport-google-oauth --save
+
+run fix command until there are 0 vulnerabilities
+
+npm audit fix
+npm audit fix --force
