@@ -1,7 +1,27 @@
-div.body 
-{
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@media screen and (min-width: 701px) {
+	div.body 
+	{
+		padding: 50px;
+		font: 24px "Lucida Grande", Helvetica, Arial, sans-serif;
+	}
+	
+	.outline 
+	{
+		padding: 15px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	div.body 
+	{
+		padding: 25px;
+		font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+	}
+	
+	.outline 
+	{
+		padding: 10px;
+	}
 }
 
 .banner 
@@ -9,14 +29,6 @@ div.body
 	text-align: center;
 	padding: 50px;
 	border-style: solid;
-}
-
-.outline 
-{
-	padding: 15px;
-	font-size: 24px;
-	/*border-style: solid;
-	border-color: gray;*/
 }
 
 .navbar 
