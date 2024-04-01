@@ -95,6 +95,7 @@ a {
   color: #00B7FF;
 }
 
+<<<<<<< HEAD
 .container {
   position: relative;
   overflow: hidden;
@@ -111,3 +112,15 @@ a {
   width: 100%;
   height: 100%;
 }
+=======
+.btn {
+  background-color: #4CAF50;
+  border: black;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+>>>>>>> 5dc8f0a856974bcc81b570dd544c522e287a4dc8

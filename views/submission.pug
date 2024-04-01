@@ -6,7 +6,7 @@ block content
 		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
 		
 		
-		form(action="/volunteer-experiences", method="POST" onsubmit="return showPopupAndRedirect()")
+		form(action="/submit_form", method="POST" onsubmit="return showPopupAndRedirect()")
 			p
 				label(for="name") What is your first and last name?:
 				input(type="text", name="name", placeholder="", required)
@@ -30,18 +30,18 @@ block content
 					option(value="yes") yes
 					option(value="no") no
 			p
-				label(for="when") When did you volunteer:
-				input(type="text", name="when", placeholder="", required)
+				label(for="date") When did you volunteer:
+				input(type="text", name="date", placeholder="", required)
 			p
-				label(for="what") What volunteering did you do?:
-				select(name="what", required)
+				label(for="work") What volunteering did you do?:
+				select(name="work", required)
 					option(value="")
 					option(value="humanitarian garden") Humanitarian Garden
 					option(value="academy") Academy
 					option(value="post-disaster community restoration and assistance") Post-disaster community restoration and assistance"
 			p
-				label(for="review") Write your review/story/experience below:
-				input(type="text", name="review", placeholder="")
+				label(for="story") Write your review/story/experience below:
+				input(type="text", name="story", placeholder="")
 			p
 				label(for="media") Upload photos/videos below:
 				input(type="text", name="media", placeholder="")
@@ -50,9 +50,8 @@ block content
 		script.
 			function showPopupAndRedirect()
 			{
-				alert("Your post is under review!");
+				/*alert("Your post is under review!");
 				window.location.href = "/volunteer-experiences";
-				return false;
+				return false;*/
 			}
 		
-	//- work on the layout
