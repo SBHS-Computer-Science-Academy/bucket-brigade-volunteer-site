@@ -1,7 +1,27 @@
-div.body 
-{
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@media screen and (min-width: 701px) {
+	div.body 
+	{
+		padding: 50px;
+		font: 24px "Lucida Grande", Helvetica, Arial, sans-serif;
+	}
+	
+	.outline 
+	{
+		padding: 15px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	div.body 
+	{
+		padding: 25px;
+		font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+	}
+	
+	.outline 
+	{
+		padding: 10px;
+	}
 }
 
 .banner 
@@ -9,14 +29,6 @@ div.body
 	text-align: center;
 	padding: 50px;
 	border-style: solid;
-}
-
-.outline 
-{
-	padding: 15px;
-	font-size: 24px;
-	/*border-style: solid;
-	border-color: gray;*/
 }
 
 .navbar 
@@ -39,6 +51,76 @@ div.body
 	float: right;
 }
 
+.btn-left 
+{
+	float: left;
+}
+
+span 
+{
+	display: inline;
+	padding: 10px;
+}
+
+div.grid
+{
+	margin: 5px;
+	border: 1px solid #ccc;
+}
+
+.grid-item
+{
+	width: 100%;
+	height: auto;
+	padding: 10px;
+}
+
+.selecting
+{
+	opacity: 0.75;
+}
+
+.selected
+{
+	opacity: 1.0;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.grid-item:hover
+{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 a {
   color: #00B7FF;
 }
+
+<<<<<<< HEAD
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+=======
+.btn {
+  background-color: #4CAF50;
+  border: black;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+>>>>>>> 5dc8f0a856974bcc81b570dd544c522e287a4dc8
