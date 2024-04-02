@@ -22,6 +22,7 @@ div.body
 .navbar 
 {
 	font-size: 20px;
+	background-color: #cc0001;
 }
 
 .space 
@@ -52,4 +53,15 @@ a {
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
+}
+
+.red {
+	color: #cc0001;
+}
+.green {
+	color: color:#73b326;
+}
+
+.yellow {
+	color: color:#ffff00;
 }
