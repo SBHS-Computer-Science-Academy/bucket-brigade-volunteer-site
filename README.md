@@ -49,3 +49,5 @@ npm audit fix --force
 repeat with:
 
 npm install --save multer
+
+npm install jquery
