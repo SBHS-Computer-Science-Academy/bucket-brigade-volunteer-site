@@ -7,7 +7,7 @@ CREATE DATABASE posts;
 
 USE posts;
 
-CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), media longblob, altText varchar(400), status varchar(30) NOT NULL, PRIMARY KEY(id));
+CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), media varchar(1024), altText varchar(400), status varchar(30) NOT NULL, PRIMARY KEY(id));
 
 //if you've already made this data table with media as a varchar use:
 
