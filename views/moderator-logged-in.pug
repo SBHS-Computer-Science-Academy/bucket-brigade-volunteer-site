@@ -46,7 +46,7 @@ block content
 					button(type="button" class="btn btn-danger" style="float:right") #[strong Remove Moderator]
 				h3.space space
 				div(class="d-grid")
-				form(action="/moderator", method="POST")
+				form(action="/new-moderator", method="POST")
 					input(type="text", name="modEmail", placeholder="moderator email")
 					button(type="submit" class="btn btn-success btn-block") #[strong Add New Moderator]
 					
@@ -66,3 +66,5 @@ block content
 	form(action="/logout" method="POST")
 		button.float-end(type="submit") Logout
 		//float-end
+		//INSERT INTO modEmails (emails)
+		//VALUES('email')

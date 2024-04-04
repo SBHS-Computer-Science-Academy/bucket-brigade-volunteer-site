@@ -49,6 +49,21 @@ router.post('/submit_form', upload.single('media'), (req, res) =>
 	});
 });
 
+router.post('/new-moderator', (req, res) => 
+	{
+		console.log(req.body)
+		email = req.body['modEmail'];
+		console.log(email)
+	const query = `INSERT INTO modEmails (email) VALUES ('${email}')`;
+		
+		connection.query(query, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after insertion
+		});
+	});
+	
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) 
