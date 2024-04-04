@@ -138,10 +138,20 @@ a
 }
 .green 
 {
-	color: color:#73b326;
+	color: #73b326;
 }
 
 .yellow 
 {
-	color: color:#ffff00;
+	color: #ffff00;
+}
+
+a 
+{
+	color: #cc0001;
+}
+
+a:hover
+{
+	color: #73b326;
 }
