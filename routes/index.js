@@ -20,7 +20,7 @@ connection.connect(function(err)
 		console.error('error connecting: ' + err.stack);
 		return;
 	}
-	console.log('connected as id ' + connection.threadId);
+	//console.log('connected as id ' + connection.threadId);
 });
 
 
@@ -28,7 +28,6 @@ connection.connect(function(err)
 // Handle form submission
 router.post('/submit_form', upload.single('media'), (req, res) => 
 {
-	console.log(req["body"]);
 	if (!req.file) 
 	{
 		return res.render('popup', {message: 'Please upload a valid image or video file'});
@@ -51,9 +50,7 @@ router.post('/submit_form', upload.single('media'), (req, res) =>
 
 router.post('/new-moderator', (req, res) => 
 	{
-		console.log(req.body)
 		email = req.body['modEmail'];
-		console.log(email)
 	const query = `INSERT INTO modEmails (email) VALUES ('${email}')`;
 		
 		connection.query(query, (error, results) => 
@@ -63,7 +60,19 @@ router.post('/new-moderator', (req, res) =>
 		});
 	});
 	
-
+router.post('/remove-moderator', (req,res) =>
+	{
+		console.log(req.body)
+		email = req.body['modEmail'];
+		console.log(email)
+	const query = `DELETE FROM modEmails WHERE email='${email}'`;
+	
+		connection.query(query, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});
+	});
 
 /* GET home page. */
 router.get('/', function(req, res, next) 
@@ -129,7 +138,7 @@ router.use(passport.session());
 
 router.get('/moderator-logged-in', async function(req, res, next) 
 {	
-	console.log(userProfile);
+	//console.log(userProfile);
 	if(req.isAuthenticated())
 	{
 		email = userProfile['_json']['email'];
@@ -188,3 +197,5 @@ router.get('/auth/google/callback',
 	});
 
 // Try using js file for submission and linking it to pug file to validate files. Would need to use similar code in index.js as well.
+//DELETE FROM modEmails WHERE email='email';
+//saving that for referance

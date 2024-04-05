@@ -33,17 +33,12 @@ block content
 						p(class="space") space
 				
 			div(class="col-sm-3")
-				span
-					h3(style="float:left") #[strong Moderator 1]
-					button(type="button" class="btn btn-danger" style="float:right") #[strong Remove Moderator]
 				h3.space space
-				span
-					h3(style="float:left") #[strong Moderator 2]
-					button(type="button" class="btn btn-danger" style="float:right") #[strong Remove Moderator]
-				h3.space space
-				span
-					h3(style="float:left") #[strong Moderator 3]
-					button(type="button" class="btn btn-danger" style="float:right") #[strong Remove Moderator]
+				div(class="d-grid")
+				form(action="/remove-moderator", method="POST")
+					input(type="text", name="modEmail", placeholder="moderator email")
+					button(type="submit" class="btn btn-danger") #[strong Remove Moderator]
+					
 				h3.space space
 				div(class="d-grid")
 				form(action="/new-moderator", method="POST")
@@ -62,7 +57,7 @@ block content
 					div(class="modal-footer")
 						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close
 	
-	center logged in and with an approved moderator email! Hooray!
+	//center logged in and with an approved moderator email! Hooray!
 	form(action="/logout" method="POST")
 		button.float-end(type="submit") Logout
 		//float-end
