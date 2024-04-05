@@ -7,15 +7,11 @@ CREATE DATABASE posts;
 
 USE posts;
 
-CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), media longblob, altText varchar(400), status varchar(30) NOT NULL, PRIMARY KEY(id));
+CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), altText varchar(400), status varchar(30) NOT NULL, PRIMARY KEY(id));
 
-//if you've already made this data table with media as a varchar use:
 
-ALTER TABLE submissions
+CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(500) NOT NULL, id int, FOREIGN KEY (id) REFERENCES  submissions(id));
 
-MODIFY media longblob;
-
-//
 
 CREATE TABLE modEmails(id int NOT NULL AUTO_INCREMENT, email varchar(200), PRIMARY KEY(id));
 
@@ -49,3 +45,5 @@ npm audit fix --force
 repeat with:
 
 npm install --save multer
+
+npm install jquery
