@@ -6,15 +6,15 @@ block content
 		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
 		
 		
-		form(action="/submit_form", method="POST", enctype="multipart/form-data")
+		form(action="/submit_form", method="POST", enctype="multipart/form-data", class="needs-validation")
 			p
-				label(for="name") What is your first and last name?:
+				label(for="name") What is your first and last name?*:
 			p
-				input(type="text", name="name", placeholder="", required)
+				input(id="name", type="text", name="name", placeholder="", required)
 			p
-				label(for="grade") What grade are you in?:
+				label(for="grade") What grade are you in?*:
 			p
-				select(name="grade", required)
+				select(id="grade", name="grade", required)
 					option(value="") 
 					option(value="9") 9
 					option(value="10") 10
@@ -23,22 +23,22 @@ block content
 			p
 				label(for="school") What school do you go to?:
 			p
-				input(type="text", name="school", placeholder="") 
+				input(id="school", type="text", name="school", placeholder="") 
 			p
-				label(for="anonymous") Would you like this submission to be anonymous once it's posted:
+				label(for="anonymous") Would you like this submission to be anonymous once it's posted?*:
 			p
-				select(name="anonymous", required)
+				select(id="anonymous", name="anonymous", required)
 					option(value="")
 					option(value="yes") yes
 					option(value="no") no
 			p
-				label(for="date") When did you volunteer:
+				label(for="date") When did you volunteer?*:
 			p
-				input(type="text", name="date", placeholder="", required)
+				input(id="date", type="text", name="date", placeholder="", required)
 			p
-				label(for="work") What volunteering did you do?:
+				label(for="work") What volunteering did you do?*:
 			p
-				select(name="work", required)
+				select(id="work", name="work", required)
 					option(value="")
 					option(value="humanitarian garden") Humanitarian Garden
 					option(value="academy") Academy
@@ -46,13 +46,33 @@ block content
 			p
 				label(for="story") Write your review/story/experience below:
 			p
-				input#input_textbox(type="text", name="story", placeholder="", class="input-textbox")
+				input#story(type="text", name="story", placeholder="", class="input-textbox")
 			p
-				label(for="media") Upload photos/videos below:
+				label(for="media") Upload photos/videos below (accepts png, jpg, jpeg, GIF, MOV, heif, MP4, WEBM):
 			p
-				input(type="file", name="media", accept="image/*,video/*")
+				input(id="media", type="file", name="media", accept="image/*,video/*", multiple)
+				div(class="invalid-feedback")
+					please submit a valid file type
 			input(type="submit")
-		
 			
+	script(src='/scripts/submission.js')
+	
+	script.
+			'use strict'
+			var forms = document.querySelectorAll('.needs-validation')
+			Array.prototype.slice.call(forms)
+				.forEach(function (form) 
+				{
+					form.addEventListener('submit', function (event) 
+					{
+						if (!form.checkValidity() || !fileValidation()) 
+						{
+							event.preventDefault()
+							event.stopPropagation()
+						}
+
+						form.classList.add('was-validated')
+					}, false)
+				})
 			
 
