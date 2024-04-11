@@ -25,6 +25,7 @@ app.use('/volunteer-experiences', indexRouter);
 app.use('/post-submission', indexRouter);
 app.use('/moderator', indexRouter);
 app.use('/users', usersRouter);
+app.use('/success', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) 
