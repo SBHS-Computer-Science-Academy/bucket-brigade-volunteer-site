@@ -42,10 +42,20 @@ block content
 								span(class='carousel-control-next-icon')
 								
 					div(class='col-xl outline')
-						h3(class='red') #[strong #{post.work}]
-						p #{post.story}
-						if post.anonymous == 'no'
-							h4 #{post.name}, Grade #{post.grade} at #{post.school}
+						div(class='card')
+							div(class='card-header')
+								h3(class='red') #[strong #{post.work}]
+							div(class='card-body box')
+								p #{post.story}
+								p.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuxlod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+								dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							div(class='card-footer')
+								if post.anonymous == 'no'
+									h4 #{post.name}, Grade #{post.grade} at #{post.school}
+								else
+									h4 Anonymous
 						
 						
 						
