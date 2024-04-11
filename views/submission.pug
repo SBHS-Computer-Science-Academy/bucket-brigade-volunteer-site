@@ -2,7 +2,7 @@ extends layout
 
 block content
 	div.body
-		h1= "Create your post"
+		h1(class="red") #[strong Create your post]
 		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
 		
 		
@@ -29,8 +29,8 @@ block content
 			p
 				select(id="anonymous", name="anonymous", required)
 					option(value="")
-					option(value="yes") yes
-					option(value="no") no
+					option(value="yes") Yes
+					option(value="no") No
 			p
 				label(for="date") When did you volunteer?*:
 			p
@@ -74,5 +74,3 @@ block content
 						form.classList.add('was-validated')
 					}, false)
 				})
-			
-

@@ -3,20 +3,219 @@ extends layout
 block content
 	div.body
 		div(class="row")
-			div(class="col-sm banner")
-				h2 BANNER
+			div(class="col-xl")
+				img(src="/images/banner.png " alt="far left:digging holes for treets. left:voulenteer holding blueberries. right:pair of voluenteers digging a hole. far right: voulenteer digging a hole." class="d-block" style="width:100%")
 		
 		br
+		div(class="row")
+			div(class="col-xl")
+				p(class="space") space
 		
 		div(class="row")
-			//Who We Are
+			// Featured Posts
+			h1(class="red" style="text-align:center") #[strong Featured Student Posts]
 			div(class="row")
-				div(class="col-sm-2")
+			
+				div(class="col-xl-1")
+				
+				div(class="col-xl")
+					div(class="card")
+							div(class="card-header")
+								div(id="slide1" class="carousel slide" data-bs-ride="carousel")
+
+									div(class="carousel-indicators")
+										button(type="button" data-bs-target="#slide1" data-bs-slide-to="0" class="active")
+										button(type="button" data-bs-target="#slide1" data-bs-slide-to="1")
+										button(type="button" data-bs-target="#slide1" data-bs-slide-to="2")
+								
+									div(class="carousel-inner")
+										div(class="carousel-item active")
+											img(src="/images/IMG_8143.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+
+										div(class="carousel-item")
+											img(src="/images/shovels.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+										div(class="carousel-item")
+											div.contain
+												iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
+						  
+									button(class="carousel-control-prev" type="button" data-bs-target="#slide1" data-bs-slide="prev")
+										span(class="carousel-control-prev-icon")
+									button(class="carousel-control-next" type="button" data-bs-target="#slide1" data-bs-slide="next")
+										span(class="carousel-control-next-icon")
+							div(class="card-body")
+								p #[strong Header]
+								p(style="font-size: 20px").
+									Text Box --
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				
+				div(class="col-xl")
+					div(class="card")
+							div(class="card-header")
+								div(id="slide2" class="carousel slide" data-bs-ride="carousel")
+
+									div(class="carousel-indicators")
+										button(type="button" data-bs-target="#slide2" data-bs-slide-to="0" class="active")
+										button(type="button" data-bs-target="#slide2" data-bs-slide-to="1")
+										button(type="button" data-bs-target="#slide2" data-bs-slide-to="2")
+								
+									div(class="carousel-inner")
+										div(class="carousel-item active")
+											img(src="/images/IMG_8143.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+
+										div(class="carousel-item")
+											img(src="/images/shovels.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+										div(class="carousel-item")
+											div.contain
+												iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
+						  
+									button(class="carousel-control-prev" type="button" data-bs-target="#slide2" data-bs-slide="prev")
+										span(class="carousel-control-prev-icon")
+									button(class="carousel-control-next" type="button" data-bs-target="#slide2" data-bs-slide="next")
+										span(class="carousel-control-next-icon")
+							div(class="card-body")
+								p #[strong Header] 
+								p(style="font-size: 20px").
+									Text Box --
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+								
+				div(class="col-xl")
+					div(class="card")
+							div(class="card-header")
+								div(id="slide3" class="carousel slide" data-bs-ride="carousel")
+
+									div(class="carousel-indicators")
+										button(type="button" data-bs-target="#slide3" data-bs-slide-to="0" class="active")
+										button(type="button" data-bs-target="#slide3" data-bs-slide-to="1")
+										button(type="button" data-bs-target="#slide3" data-bs-slide-to="2")
+								
+									div(class="carousel-inner")
+										div(class="carousel-item active")
+											img(src="/images/IMG_8143.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+
+										div(class="carousel-item")
+											img(src="/images/shovels.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+										div(class="carousel-item")
+											div.contain
+												iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
+						  
+									button(class="carousel-control-prev" type="button" data-bs-target="#slide3" data-bs-slide="prev")
+										span(class="carousel-control-prev-icon")
+									button(class="carousel-control-next" type="button" data-bs-target="#slide3" data-bs-slide="next")
+										span(class="carousel-control-next-icon")
+							div(class="card-body")
+								p #[strong Header]
+								p(style="font-size: 20px").
+									Text Box --
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+								
+				div(class="col-xl-1")
+			br
+			div(class="row")
+				div(class="col-xl")
+					p(class="space") space
+					
+			// Call to Action
+			div(class="row")
+				div(class="col-xl-2")
+				
+				div(class="col-xl")
+					h1(class="red" style="text-align:center") #[strong Want to get involved in your community?]
+					h3(style="text-align:center"). 
+						The Santa Barbara Bucket Brigade is looking for SBHS student volunteers to come out and make some change in the community, and you're invited! If you're 
+						interested in getting your hands dirty, helping prepare for disasters, and making some real change, this is the right place for you! So, what are you waiting
+						for? Let's go!
+				
+				div(class="col-xl-2")
+			
+			br
+			div(class="row")
+				div(class="col-xl")
+					p(class="space") space
+				
+			// Volunteer Opportunities
+			br
+			div(class="row")
+				div(class="col-xl")
+					p(class="space") space
+			
+				div(class="col-xl-8 outline text-center")
+					h2(class="red") #[strong Volunteer Opportunities]
+					p. 
+						There are lots of opportunities to volunteer with the Bucket Brigade. You can work in the Bucket Brigade Community Garden at Elings Park or 
+						sign up for community deployments. Just check the #[a(href="/volunteer-hub") calendar].
+						The Bucket Brigade brings the tools, donuts, and pizza and you bring yourself and a positive attitude.
+				div(class="col-xl-2")
+			div(class="row")
+				div(class="col-xl")
+					p(class="space") space
+			div(class="row text-center")
+				div(class="col-xl-2")
+				
+				// Garden
+				div(class="col-xl outline")
+					p #[strong Garden]
+					p Join us any Saturday to work in the Garden at Elings Park!
+				
+				// Community
+				div(class="col-xl outline")
+					p #[strong Community]
+					p Post-Disaster Community Restoration and Assistance
+				
+				// Academy
+				div(class="col-xl outline")
+					p #[strong Academy]
+					p Available in the summer? Join Bucket Brigade Academy to learn volunteer leadership skills. See more below.
+				
+				div(class="col-xl-2")
+				
+			// Sign-Up Button
+			div(class="row")
+				div(class="col-xl-2")
+				
+				div(class="col-xl")
+				div(class="col-xl")
+					div(class="d-grid")
+						a(type="button" class="btn btn-success btn-block sign-up-btn" href="/volunteer-hub") #[strong SIGN UP]
+				div(class="col-xl")
+				
+				div(class="col-xl-2")
+				
+			// Academy Info
+			br
+			div(class="row")
+				div(class="col-xl")
+					p(class="space") space
+			
+			div(class="row")
+				div(class="col-xl-2")
+				
+				// Video
+				div(class="col-xl-4 outline")
+					p(class="space") space
+					div.contain
+						iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/-K_JN8zvVvk?autoplay=1&origin=http://example.com' frameborder='0')
+				
+				// Info
+				div(class="col-xl-4 outline")
+					h2(class="red") #[strong Bucket Brigade Academy]
+					p. 
+						If you want to get more involved with Bucket Brigade, you can apply to join the Bucket Brigade Academy this summer. Bucket Brigade Academy prepares teens to be 
+						leaders in their communities by teaching them how to organize, train, and deploy the power of community in response to natural disasters and crises. Academy 
+						graduates will leave the programs with an understanding of the skills and abilities required to lead during a community crisis as well as to lead community 
+						service projects here in Santa Barbara County and beyond. Learn more #[a(href="https://academy.sbbucketbrigade.org/" target="_blank") here].
+				
+				div(class="col-xl-2")
+			
+			div(class="row")
+				div(class="col-xl-2")
 				
 				//Text
-				div(class="col-sm-4 outline right")
+				div(class="col-xl-4 outline right")
 					p(class="space") space
-					h2 #[strong Who We Are]
+					h2(class="red") #[strong Who We Are]
 					p.
 						The Santa Barbara Bucket Brigade formed as a community volunteer response to the tragic debris flow of January 9, 2018, which devastated the community of 
 						Montecito in Santa Barbara County, CA. The disaster caused 23 fatalities and more than 150 injuries.  More than 100 homes were destroyed and an additional 
@@ -25,79 +224,19 @@ block content
 						need. Despite the overwhelming grief, our collective instinct toward action kicked in and we started digging together.
 				
 				//Videos
-				div(class="col-sm-4 outline")
-					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
-					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/sSerjfSAANg?autoplay=1&origin=http://example.com' frameborder='0')
+				div(class="col-xl-4 outline")
+					div.contain
+						iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
+					div.contain
+						iframe(type='text/html' class="responsive-iframe" src='http://www.youtube.com/embed/sSerjfSAANg?autoplay=1&origin=http://example.com' frameborder='0')
 				
-				div(class="col-sm-2")
-			
-			//Volunteer Opportunities
-			br
-			div(class="row")
-				div(class="col-sm")
-					p(class="space") space
-			div(class="row")
-				div(class="col-sm-2")
-				div(class="col-sm-8 outline text-center")
-					h2 #[strong Volunteer Opportunities]
-					p. 
-						Want to get involved? There are lots of opportunities to volunteer with the Bucket Brigade. You can work in the Bucket Brigade Community Garden at Elings Park or 
-						sign up for community deployments. Just check the #[a(href="/volunteer-hub") calendar].
-						The Bucket Brigade brings the tools, donuts, and pizza and you bring yourself and a positive attitude.
-				div(class="col-sm-2")
-			div(class="row")
-				div(class="col-sm")
-					p(class="space") space
-			div(class="row text-center")
-				div(class="col-sm-2")
-				
-				// Garden
-				div(class="col-sm outline")
-					p #[strong Garden]
-					p Join us any Saturday to work in the Garden at Elings Park!
-				
-				// Community
-				div(class="col-sm outline")
-					p #[strong Community]
-					p Post-Disaster Community Restoration and Assistance
-				
-				// Academy
-				div(class="col-sm outline")
-					p #[strong Academy]
-					p Available in the summer? Join Bucket Brigade Academy to learn volunteer leadership skills. See more below.
-				
-				div(class="col-sm-2")
-				
-			// Academy Info
-			br
-			div(class="row")
-				div(class="col-sm")
-					p(class="space") space
-			
-			div(class="row")
-				div(class="col-sm-2")
-				
-				// Video
-				div(class="col-sm-4 outline")
-					p(class="space") space
-					iframe(type='text/html' width='100%' height='300' src='http://www.youtube.com/embed/-K_JN8zvVvk?autoplay=1&origin=http://example.com' frameborder='0')
-				
-				// Info
-				div(class="col-sm-4 outline")
-					h2 #[strong Bucket Brigade Academy]
-					p. 
-						If you want to get more involved with Bucket Brigade, you can apply to join the Bucket Brigade Academy this summer. Bucket Brigade Academy prepares teens to be 
-						leaders in their communities by teaching them how to organize, train, and deploy the power of community in response to natural disasters and crises. Academy 
-						graduates will leave the programs with an understanding of the skills and abilities required to lead during a community crisis as well as to lead community 
-						service projects here in Santa Barbara County and beyond. Learn more #[a(href="https://academy.sbbucketbrigade.org/" target="_blank") here].
-				
-				div(class="col-sm-2")
+				div(class="col-xl-2")
 			
 			//carousel
 			div(class="row")
-				div(class="col-sm-2")
+				div(class="col-xl-2")
 				
-				div(class="col-sm")
+				div(class="col-xl")
 					div(id="demo" class="carousel slide" data-bs-ride="carousel")
 
 						div(class="carousel-indicators")
@@ -107,16 +246,19 @@ block content
 			  
 						div(class="carousel-inner")
 							div(class="carousel-item active")
-								img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:100%")
+								img(src="/images/IMG_0316.jpeg" alt="placeholder image" class="d-block" style="width:100%")
 							div(class="carousel-item")
-								img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:100%")
+								img(src="/images/group.jpeg" alt="placeholder image" class="d-block" style="width:100%")
 							div(class="carousel-item")
-								img(src="/images/placeholder2.png" alt="placeholder image" class="d-block" style="width:100%")
+								img(src="/images/flags.jpeg" alt="placeholder image" class="d-block" style="width:100%")
 			  
 						button(class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev")
 							span(class="carousel-control-prev-icon")
 						button(class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next")
 							span(class="carousel-control-next-icon")
 				
-				div(class="col-sm-2")
+				div(class="col-xl-2")
+				
+			div(class="row")
+				p(style="text-align:center") #[strong Disclaimer:] Bucket Brigade is not an SBHS Sponsored activity.
 		
