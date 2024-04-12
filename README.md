@@ -7,10 +7,10 @@ CREATE DATABASE posts;
 
 USE posts;
 
-CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), altText varchar(400), status varchar(30) NOT NULL, PRIMARY KEY(id));
+CREATE TABLE submissions(id int NOT NULL AUTO_INCREMENT, name varchar(150) NOT NULL, grade int NOT NULL, school varchar(150), anonymous varchar(3) NOT NULL, date varchar(200) NOT NULL, work varchar(150) NOT NULL, story varchar(450), status varchar(30) NOT NULL, PRIMARY KEY(id));
 
 
-CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(500) NOT NULL, id int, FOREIGN KEY (id) REFERENCES  submissions(id));
+CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(500) NOT NULL, altText varchar(400), id int, FOREIGN KEY (id) REFERENCES  submissions(id));
 
 
 CREATE TABLE modEmails(id int NOT NULL AUTO_INCREMENT, email varchar(200), PRIMARY KEY(id));
