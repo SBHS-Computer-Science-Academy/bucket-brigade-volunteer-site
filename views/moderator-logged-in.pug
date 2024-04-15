@@ -2,31 +2,41 @@ extends layout
 
 block content
 	form(action="/logout" method="POST")
-		button(type="submit") Logout
+		button(type="submit" class="btn btn-danger btn-lg") Logout
 	div.body
 		div(class="row")
 			div(class="col-sm-8")
 				div(class="row")
 					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
-				div(class="card")
-					div(class="card-header")
-						div.grid
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-						button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
-					div(class="card-body")
-						h3 #[strong Header]  
-						p.
-							Text Box --
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						div.btn-group
-							button(type="button" class="btn btn-success") #[strong Approve Selected]
-							button(type="button" class="btn btn-danger") #[strong Deny All]
-				
+					#posts 
+						each post in posts
+							div(class="card")
+								div(class="card-header")
+									div.grid
+										#media
+											each img in media
+												if img.id == post.id
+													- var path = img.path
+													img(src=path alt="placeholder image" style="width:50%" class="grid-item")
+											button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
+										div(class="card-body")
+											h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
+											p #{post.story}
+												div.btn-group
+												form(action="/approve-selected" method="POST")
+													- var id= post.id
+													input(type="hidden" name="postid" value=id)
+												button(type="submit" class="btn btn-success") #[strong Approve Selected]
+												form(action="/deny-all", method="POST")
+													- var id= post.id
+													input(type="hidden" name="postid" value=id)
+													button(type="submit" class="btn btn-danger") #[strong Deny All]
+														
+													div(class="form-check")
+														input(type="checkbox" class="form-check-label")
+														label(class="form-check-label") #[strong Include Text]
+									
+							
 			div(class="col-sm-1")
 				div(class="row")
 					div(class="col-sm")
@@ -56,10 +66,4 @@ block content
 						
 					div(class="modal-footer")
 						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close
-	
-	//center logged in and with an approved moderator email! Hooray!
-	form(action="/logout" method="POST")
-		button.float-end(type="submit") Logout
-		//float-end
-		//INSERT INTO modEmails (emails)
-		//VALUES('email')
+						

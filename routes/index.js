@@ -13,6 +13,28 @@ var connection = mysql.createConnection(
 	database: 'posts'
 });
 
+function getMedia() 
+{
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query('SELECT * FROM `media`', function (error, results, fields) 
+		{
+			// error will be an Error if one occurred during the query
+			// results will contain the results of the query
+			// fields will contain information about the returned results fields (if any)
+			
+			console.log(results);
+			
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
+
+
 connection.connect(function(err) 
 {
 	if (err) 
@@ -47,6 +69,50 @@ router.post('/submit_form', upload.single('media'), (req, res) =>
 		res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
 	});
 });
+
+router.post('/approve-selected', (req, res) => 
+	{
+		postid = req.body['postid'];
+		console.log(postid);
+	const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
+	console.log(req.body);
+		connection.query(query, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});
+	});
+	/*
+	if(checkbox=notChecked) {
+		const query(DELETE FROM submissions WHERE story=('${postid}'));
+	}
+	if(anonymous="yes") {
+		const query(UPDATE submissions SET name='Anonymous' WHERE id=('${postid}'));
+	}
+	*/
+
+
+
+router.post('/deny-all', (req, res) => 
+	{
+		postid = req.body['postid'];
+	const query = `DELETE FROM media WHERE id=('${postid}')`;
+	const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+		
+		connection.query(query, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});
+		
+		connection.query(query2, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});
+	});
+
+
 
 router.post('/new-moderator', (req, res) => 
 	{
@@ -136,6 +202,18 @@ var userProfile;
 router.use(passport.initialize());
 router.use(passport.session());
 
+function getList() {
+	return new Promise(function(resolve, reject) {
+		connection.query('SELECT * FROM `submissions` WHERE `status` = "not approved"', function (error,results, fields) {
+			if(error) {
+				console.log(error);
+				return reject(error);
+			}
+			resolve(results);
+		});
+	});
+}
+
 router.get('/moderator-logged-in', async function(req, res, next) 
 {	
 	//console.log(userProfile);
@@ -145,7 +223,9 @@ router.get('/moderator-logged-in', async function(req, res, next)
 		modEmail = await getModerator(email);
 		if(modEmail == true)
 		{
-			res.render('moderator-logged-in');//if user is logged in with approved email
+			let list = await getList();
+			let mediaList = await getMedia();
+			res.render('moderator-logged-in', {posts: list, media: mediaList});//if user is logged in with approved email
 		}
 		else
 		{
@@ -197,5 +277,4 @@ router.get('/auth/google/callback',
 	});
 
 // Try using js file for submission and linking it to pug file to validate files. Would need to use similar code in index.js as well.
-//DELETE FROM modEmails WHERE email='email';
-//saving that for referance
+//'SELECT * FROM `submissions` WHERE `name` = `name`'
