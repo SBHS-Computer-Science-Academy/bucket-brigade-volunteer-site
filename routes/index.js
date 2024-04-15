@@ -91,8 +91,9 @@ router.get('/volunteer-hub', function(req, res, next)
 /* GET UGC page. */
 router.get('/volunteer-experiences', async function(req, res, next) 
 {
-	let list = await getPosts();
-	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: list});
+	let postList = await getPosts();
+	let mediaList = await getMedia();
+	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: postList, media: mediaList});
 });
 
 router.get('/post-submission', function(req, res, next) 
@@ -118,6 +119,27 @@ function getPosts()
 	return new Promise(function(resolve, reject) 
 	{
 		connection.query('SELECT * FROM `submissions` WHERE `status`="approved"', function (error, results, fields) 
+		{
+			// error will be an Error if one occurred during the query
+			// results will contain the results of the query
+			// fields will contain information about the returned results fields (if any)
+			
+			console.log(results);
+			
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
+
+function getMedia() 
+{
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query('SELECT * FROM `media`', function (error, results, fields) 
 		{
 			// error will be an Error if one occurred during the query
 			// results will contain the results of the query
