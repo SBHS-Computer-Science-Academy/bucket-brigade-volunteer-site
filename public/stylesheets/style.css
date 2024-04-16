@@ -111,7 +111,8 @@ div.grid
 	margin-left: auto;
 	margin-right: auto;
 	width: auto;
-	height: 325px;
+	max-width: 585px;
+	height: auto;
 	max-height: 325px;
 }
 
