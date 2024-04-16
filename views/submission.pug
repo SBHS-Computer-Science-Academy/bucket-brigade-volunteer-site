@@ -6,52 +6,71 @@ block content
 		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
 		
 		
-		form(action="/submit_form", method="POST" onsubmit="return showPopupAndRedirect()")
+		form(action="/submit_form", method="POST", enctype="multipart/form-data", class="needs-validation")
 			p
-				label(for="name") What is your first and last name?:
-				input(type="text", name="name", placeholder="", required)
+				label(for="name") What is your first and last name?*:
 			p
-				label(for="grade") What grade are you in?:
-				select(name="grade", required)
-					option(value="")
-					option(value="7") 7
-					option(value="8") 8
+				input(id="name", type="text", name="name", placeholder="", required)
+			p
+				label(for="grade") What grade are you in?*:
+			p
+				select(id="grade", name="grade", required)
+					option(value="") 
 					option(value="9") 9
 					option(value="10") 10
 					option(value="11") 11
 					option(value="12") 12
 			p
 				label(for="school") What school do you go to?:
-				input(type="text", name="school", placeholder="")
 			p
-				label(for="anonymous") Would you like this submission to be anonymous once it's posted:
-				select(name="anonymous", required)
+				input(id="school", type="text", name="school", placeholder="") 
+			p
+				label(for="anonymous") Would you like this submission to be anonymous once it's posted?*:
+			p
+				select(id="anonymous", name="anonymous", required)
 					option(value="")
 					option(value="yes") Yes
 					option(value="no") No
 			p
-				label(for="date") When did you volunteer:
-				input(type="text", name="date", placeholder="", required)
+				label(for="date") When did you volunteer?*:
 			p
-				label(for="work") What volunteering did you do?:
-				select(name="work", required)
+				input(id="date", type="text", name="date", placeholder="", required)
+			p
+				label(for="work") What volunteering did you do?*:
+			p
+				select(id="work", name="work", required)
 					option(value="")
 					option(value="humanitarian garden") Humanitarian Garden
 					option(value="academy") Academy
 					option(value="post-disaster community restoration and assistance") Post-disaster community restoration and assistance"
 			p
 				label(for="story") Write your review/story/experience below:
-				input(type="text", name="story", placeholder="")
 			p
-				label(for="media") Upload photos/videos below:
-				input(type="text", name="media", placeholder="")
+				input#story(type="text", name="story", placeholder="", class="input-textbox")
+			p
+				label(for="media") Upload photos/videos below (accepts png, jpg, jpeg, GIF, MOV, heif, MP4, WEBM):
+			p
+				input(id="media", type="file", name="media", accept="image/*,video/*", multiple)
+				div(class="invalid-feedback")
+					please submit a valid file type
 			input(type="submit")
-		
-		script.
-			function showPopupAndRedirect()
-			{
-				alert("Your post is under review!");
-				window.location.href = "/volunteer-experiences";
-				return false;
-			}
-		
+			
+	script(src='/scripts/submission.js')
+	
+	script.
+			'use strict'
+			var forms = document.querySelectorAll('.needs-validation')
+			Array.prototype.slice.call(forms)
+				.forEach(function (form) 
+				{
+					form.addEventListener('submit', function (event) 
+					{
+						if (!form.checkValidity() || !fileValidation()) 
+						{
+							event.preventDefault()
+							event.stopPropagation()
+						}
+
+						form.classList.add('was-validated')
+					}, false)
+				})

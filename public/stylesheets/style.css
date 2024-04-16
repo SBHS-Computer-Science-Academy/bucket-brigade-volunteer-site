@@ -59,6 +59,12 @@ body {
 	float: right;
 }
 
+.input-textbox 
+{
+	width: 300px;
+	height: 150px;
+}
+
 .btn-left 
 {
 	float: left;

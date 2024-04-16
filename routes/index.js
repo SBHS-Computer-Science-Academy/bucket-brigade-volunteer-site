@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest:'uploads/'});
+const fs = require("fs");
 
 //connect to posts database (lines 5-23)
 var mysql = require('mysql');
@@ -23,29 +24,48 @@ connection.connect(function(err)
 	//console.log('connected as id ' + connection.threadId);
 });
 
-
+  function executeQuery(query) 
+  {
+	return new Promise(function(resolve, reject) 
+	{
+		var postId = -1;
+		connection.query(query, (error, results) => 
+		{
+			postId = results["insertId"];
+			if (error) //throw error;
+			{
+				return reject(error);
+			}
+			resolve(postId);
+			
+		});
+	});
+  }  
+ 
 
 // Handle form submission
-router.post('/submit_form', upload.single('media'), (req, res) => 
+router.post('/submit_form', upload.array('media', 10), async(req, res) => 
 {
-	if (!req.file) 
-	{
-		return res.render('popup', {message: 'Please upload a valid image or video file'});
-	}
-	// Process the uploaded file
-	res.send('File uploaded successfully!');
   
-	const { name, grade, school, anonymous, date, work, story, media } = req.body;
+  const { name, grade, school, anonymous, date, work, story } = req.body;
+  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', 'not approved')`; 
+  var postId = await executeQuery(query); //this local variable is different from the other postId variable, but it gets the value of the other var.
 
-	// Insert data into MySQL database
-	const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}', 'not approved')`;
-  
-  
-	connection.query(query, (error, results) => 
+  media = req["files"] 
+
+	if (media != "")
 	{
-    if (error) throw error;
-		res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
-	});
+		for(let x = 0; x < media.length; x++)
+		{
+			var filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf(".")) 
+			fs.renameSync(media[x]["path"], filePath)
+				
+			// Insert data into MySQL database
+			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath}', '${postId}')`;
+			await executeQuery(m_query);	
+		}	
+	}
+	res.redirect('/success');
 });
 
 router.post('/new-moderator', (req, res) => 
@@ -106,6 +126,13 @@ router.get('/moderator', function(req, res, next)
 {
 	res.render('moderator', { title: 'Moderator Page' });
 });
+
+router.get('/success', function(req, res, next) 
+{	
+  res.render('success', { title: 'success', active_page: 'success' });
+});
+
+module.exports = router;
 
 const session = require('express-session');
 router.use(session({
