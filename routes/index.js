@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest:'uploads/'});
+const fs = require("fs");
 
 //connect to posts database (lines 5-23)
 var mysql = require('mysql');
@@ -45,47 +46,71 @@ connection.connect(function(err)
 	//console.log('connected as id ' + connection.threadId);
 });
 
-
-
-// Handle form submission
-router.post('/submit_form', upload.single('media'), (req, res) => 
-{
-	if (!req.file) 
+  function executeQuery(query) 
+  {
+	return new Promise(function(resolve, reject) 
 	{
-		return res.render('popup', {message: 'Please upload a valid image or video file'});
-	}
-	// Process the uploaded file
-	res.send('File uploaded successfully!');
-  
-	const { name, grade, school, anonymous, date, work, story, media } = req.body;
-
-	// Insert data into MySQL database
-	const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, media, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', '${media}', 'not approved')`;
-  
-  
-	connection.query(query, (error, results) => 
-	{
-    if (error) throw error;
-		res.redirect('/volunteer-experiences'); // Redirect to a success page after insertion
-	});
-});
-
-router.post('/approve-selected', (req, res) => 
-	{
-		postid = req.body['postid'];
-		console.log(postid);
-	const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
-	console.log(req.body);
+		var postId = -1;
 		connection.query(query, (error, results) => 
 		{
-			if (error) throw error;
-			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+			postId = results["insertId"];
+			if (error) //throw error;
+			{
+				return reject(error);
+			}
+			resolve(postId);
+			
 		});
 	});
-	/*
-	if(checkbox=notChecked) {
-		const query(DELETE FROM submissions WHERE story=('${postid}'));
+  }  
+ 
+
+// Handle form submission
+router.post('/submit_form', upload.array('media', 10), async(req, res) => 
+{
+  
+  const { name, grade, school, anonymous, date, work, story } = req.body;
+  const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', 'not approved')`; 
+  var postId = await executeQuery(query); //this local variable is different from the other postId variable, but it gets the value of the other var.
+
+  media = req["files"] 
+
+	if (media != "")
+	{
+		for(let x = 0; x < media.length; x++)
+		{
+			let filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf(".")) 
+			fs.renameSync(media[x]["path"], filePath)	
+			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."))
+			// Insert data into MySQL database
+			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath2}', '${postId}')`;
+			await executeQuery(m_query);	
+		}	
 	}
+	res.redirect('/success');
+});
+
+router.post('/approve-selected', async(req, res) => 
+	{
+		postid = req.body['postid'];
+		const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
+		await executeQuery(query);
+		//console.log(query);
+		var check = req.body.myCheckbox;
+		console.log(req.body.myCheckbox);
+		
+		//const myCheckbox = document.getElementById('myCheckbox');
+		//console.log(myCheckbox.check);
+		if(req.body.myCheckbox == null)
+		{
+			console.log('myCheckbox');
+			const deny_query = `UPDATE submissions SET story= NULL WHERE id=('${postid}')`;
+			await executeQuery(deny_query);
+			
+		}
+		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	});
+	/*
 	if(anonymous="yes") {
 		const query(UPDATE submissions SET name='Anonymous' WHERE id=('${postid}'));
 	}
@@ -93,13 +118,16 @@ router.post('/approve-selected', (req, res) =>
 
 
 
-router.post('/deny-all', (req, res) => 
+router.post('/deny-all', async(req, res) => 
 	{
 		postid = req.body['postid'];
 	const query = `DELETE FROM media WHERE id=('${postid}')`;
 	const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
 		
-		connection.query(query, (error, results) => 
+		await executeQuery(query)
+		await executeQuery(query2)
+		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		/*connection.query(query, (error, results) => 
 		{
 			if (error) throw error;
 			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
@@ -109,7 +137,7 @@ router.post('/deny-all', (req, res) =>
 		{
 			if (error) throw error;
 			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
-		});
+		});*/
 	});
 
 
@@ -168,6 +196,13 @@ router.get('/moderator', function(req, res, next)
 {
   res.render('moderator', { title: 'Moderator Page' });
 });
+
+router.get('/success', function(req, res, next) 
+{	
+  res.render('success', { title: 'success', active_page: 'success' });
+});
+
+module.exports = router;
 
 const session = require('express-session');
 router.use(session({
@@ -275,6 +310,3 @@ router.get('/auth/google/callback',
     // Successful authentication, redirect success.
     res.redirect('/moderator-logged-in');
 	});
-
-// Try using js file for submission and linking it to pug file to validate files. Would need to use similar code in index.js as well.
-//'SELECT * FROM `submissions` WHERE `name` = `name`'

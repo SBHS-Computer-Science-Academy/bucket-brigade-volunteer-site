@@ -10,6 +10,7 @@ block content
 					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
 					#posts 
 						each post in posts
+							- var isChecked = true
 							div(class="card")
 								div(class="card-header")
 									div.grid
@@ -20,21 +21,20 @@ block content
 													img(src=path alt="placeholder image" style="width:50%" class="grid-item")
 											button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
 										div(class="card-body")
+											- var Id= post.id
 											h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
 											p #{post.story}
 												div.btn-group
 												form(action="/approve-selected" method="POST")
-													- var id= post.id
-													input(type="hidden" name="postid" value=id)
-												button(type="submit" class="btn btn-success") #[strong Approve Selected]
-												form(action="/deny-all", method="POST")
-													- var id= post.id
-													input(type="hidden" name="postid" value=id)
-													button(type="submit" class="btn btn-danger") #[strong Deny All]
-														
+													input(type="hidden" name="postid" value=Id)
+													button(type="submit" class="btn btn-success") #[strong Approve Selected]
 													div(class="form-check")
-														input(type="checkbox" class="form-check-label")
-														label(class="form-check-label") #[strong Include Text]
+															input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
+															label(class="form-check-label") #[strong Include Text]
+												form(action="/deny-all", method="POST")
+													input(type="hidden" name="postid" value=Id)
+													button(type="submit" class="btn btn-danger") #[strong Deny All]
+													
 									
 							
 			div(class="col-sm-1")

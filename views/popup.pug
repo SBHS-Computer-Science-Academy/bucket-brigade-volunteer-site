@@ -1,0 +1,45 @@
+// Pug template (popup.pug)
+doctype html
+html
+	head
+		title Popup
+		style.
+			.popup 
+			{
+				display: none;
+				position: fixed;
+				z-index: 1;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+			.popup-content 
+			{
+				background-color: #fefefe;
+				margin: 15% auto;
+				padding: 20px;
+				border: 1px solid #888;
+				width: 30%;
+			}
+		body
+			.popup
+				.popup-content
+					p= message
+					button.close-button Close
+			script.
+				document.addEventListener('DOMContentLoaded', () => 
+				{
+					const popup = document.querySelector('.popup');
+					const closeButton = document.querySelector('.close-button');
+
+					popup.style.display = 'block';
+
+					closeButton.addEventListener('click', () => 
+					{
+						popup.style.display = 'none';
+						history.back()
+					});
+				});

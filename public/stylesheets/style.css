@@ -52,6 +52,12 @@ body {
 	float: right;
 }
 
+.input-textbox 
+{
+	width: 300px;
+	height: 150px;
+}
+
 .btn-left 
 {
 	float: left;
@@ -90,11 +96,6 @@ div.grid
 .grid-item:hover
 {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-a 
-{
-  color: #00B7FF;
 }
 
 .contain {
@@ -158,4 +159,6 @@ a:hover
 
 /*
 INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('Adan Galindo', '12', 'Santa Barbara Senior High School', 'no', '04/10/24', 'Academy', 'I attended the academy and learned how to perform CPR on a baby!', 'not approved');
+UPDATE submissions SET story = 'I attended the academy and learned how to perform CPR on a baby!' WHERE id=7;
+UPDATE submissions SET story = 'I attended the academy and learned how to perform CPR on a baby!' WHERE id=1;
 */
