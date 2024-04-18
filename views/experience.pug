@@ -2,49 +2,93 @@ extends layout
 
 block content
 	div.body
-		div(class="row")
-			div(class="col-xl-2")
-			div(class="col-xl")
-				a(href="/post-submission" class="btn btn-success btn-lg btn-right") #[strong Share Your Experience]
-			div(class="col-xl-2")
+		div(class='row')
+			div(class='col-xl-2')
+			div(class='col-xl')
+				a(href='/post-submission' class='btn btn-success btn-lg btn-right') #[strong Share Your Experience]
+			div(class='col-xl-2')
 		
 		br
-		div(class="row")
-			div(class="col-xl")
-				p(class="space") space
+		div(class='row')
+			div(class='col-xl')
+				p(class='space')
 				
 		//post template
-		div(class="row")
-			div(class="col-xl-2")
-			
-			div(class="col-xl outline")
-				div(id="demo" class="carousel slide" data-bs-ride="carousel")
-
-					div(class="carousel-indicators")
-						button(type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active")
-						button(type="button" data-bs-target="#demo" data-bs-slide-to="1")
-						button(type="button" data-bs-target="#demo" data-bs-slide-to="2")
+		-var ID = 0
+		#posts
+			each post in posts
+				-var carouselId = 'n' + ID
+				-var carId = '#' + carouselId
+				- var k = 0
 				
-					div(class="carousel-inner")
-						div(class="carousel-item active")
-							img(src="/images/IMG_8143.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+				- var imgCount = 0
 
-						div(class="carousel-item")
-							img(src="/images/shovels.jpeg" alt="placeholder image" class="d-block" style="width:100%")
-						div(class="carousel-item")
-							iframe(type='text/html' width='100%' height='329' src='http://www.youtube.com/embed/bo1l7sVisB8?autoplay=1&origin=http://example.com' frameborder='0')
-		  
-					button(class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev")
-						span(class="carousel-control-prev-icon")
-					button(class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next")
-						span(class="carousel-control-next-icon")
+				div(class='row')
+					div(class='col-xl-2')
+						each img in media
+							if img.id == post.id
+								p(class='space')= imgCount++
+
 						
-			div(class="col-xl outline")
-				h3(class="red") #[strong Header]
-				p.
-					Text Box --
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuxlod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				
-			div(class="col-xl-2")
+					if imgCount == 0
+						div(class='col-xl outline')
+							div(class='card')
+								div(class='card-header')
+									h3(class='red') #[strong #{post.work}] 
+								div(class='card-body box')
+									p(style="opacity: 75%") #{post.date}
+									p #{post.story}
+								div(class='card-footer')
+									if post.anonymous == 'no'
+										h4 #{post.name}, Grade #{post.grade} at #{post.school}
+									else
+										h4 Anonymous
+										
+					else
+						div(class='col-xl outline')
+							div(id=carouselId class='carousel slide' data-bs-ride='carousel')
+
+								div(class='carousel-indicators')
+									- var i = 0
+									while i < imgCount
+										- var j = '' + i++
+										if j == 0
+											button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
+										else if i > 0
+											button(type='button' data-bs-target=carId data-bs-slide-to=j)
+							
+								div(class='carousel-inner')
+									each img in media
+										if img.id == post.id
+											- var l = k++
+											- var path = img.path
+											if l == 0
+												div(class='carousel-item post active')
+													img(src=path alt='placeholder image' class='d-block')
+											else if l > 0
+												div(class='carousel-item post')
+													img(src=path alt='placeholder image' class='d-block')
+													
+								button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
+									span(class='carousel-control-prev-icon')
+								button(class='carousel-control-next' type='button' data-bs-target=carId data-bs-slide='next')
+									span(class='carousel-control-next-icon')
+									
+						div(class='col-xl outline')
+							div(class='card')
+								div(class='card-header')
+									h3(class='red') #[strong #{post.work}]
+								div(class='card-body box')
+									p(style="opacity: 75%") #{post.date}
+									p #{post.story}
+								div(class='card-footer')
+									if post.anonymous == 'no'
+										h4 #{post.name}, Grade #{post.grade} at #{post.school}
+									else
+										h4 Anonymous
+						
+						
+						
+					div(class='col-xl-2 space')
+						p= ID++
+					

@@ -167,34 +167,38 @@ router.post('/remove-moderator', (req,res) =>
 			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
 		});
 	});
+	
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) 
 {	
-  res.render('index', { title: 'Home', active_page: 'home' });
+	res.render('index', { title: 'Home', active_page: 'home' });
 });
 
 /* GET volunteer hub page. */
 router.get('/volunteer-hub', function(req, res, next) 
 {
-  res.render('hub', { title: 'Volunteer Hub', active_page: 'hub' });
+	res.render('hub', { title: 'Volunteer Hub', active_page: 'hub' });
 });
 
 /* GET UGC page. */
-router.get('/volunteer-experiences', function(req, res, next) 
+router.get('/volunteer-experiences', async function(req, res, next) 
 {
-  res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' });
+	let postList = await getPosts();
+	let mediaList = await getMedia();
+	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: postList, media: mediaList});
 });
 
 router.get('/post-submission', function(req, res, next) 
 {
-  res.render('submission', { title: 'Volunteer Experience Post Submission', active_page: 'experience' });
+	res.render('submission', { title: 'Volunteer Experience Post Submission', active_page: 'experience' });
 });
 
 /* GET moderator page. */
 router.get('/moderator', function(req, res, next) 
 {
-  res.render('moderator', { title: 'Moderator Page' });
+	res.render('moderator', { title: 'Moderator Page' });
 });
 
 router.get('/success', function(req, res, next) 
@@ -210,6 +214,48 @@ router.use(session({
 	saveUninitialized: false,
 	secret: 'SECRET' //TODO CHANGE THIS TO ACCESS TO AN ENVIRONMENT VARIABLE
 }));
+
+function getPosts() 
+{
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query('SELECT * FROM `submissions` WHERE `status`="approved"', function (error, results, fields) 
+		{
+			// error will be an Error if one occurred during the query
+			// results will contain the results of the query
+			// fields will contain information about the returned results fields (if any)
+			
+			console.log(results);
+			
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
+
+function getMedia() 
+{
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query('SELECT * FROM `media`', function (error, results, fields) 
+		{
+			// error will be an Error if one occurred during the query
+			// results will contain the results of the query
+			// fields will contain information about the returned results fields (if any)
+			
+			console.log(results);
+			
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
 
 module.exports = router;
 
@@ -274,10 +320,12 @@ router.get('/moderator-logged-in', async function(req, res, next)
 });
 router.get('/moderator-error', (req, res) => res.send("error logging in"));
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser(function(user, cb) 
+{
 	cb(null, user);
 });
-passport.deserializeUser(function(obj, cb) {
+passport.deserializeUser(function(obj, cb) 
+{
 	cb(null, obj);
 });
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -288,16 +336,19 @@ passport.use(new GoogleStrategy({
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback"
 	},
-	function(accessToken, refreshToken, profile, done) {
-      userProfile=profile;
-      return done(null, userProfile);
+	function(accessToken, refreshToken, profile, done) 
+	{
+		userProfile=profile;
+		return done(null, userProfile);
 	}
 ));
 
-router.post("/logout", (req,res) => {
-	req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/moderator');
+router.post("/logout", (req,res) => 
+{
+	req.logout(function(err) 
+	{
+		if (err) { return next(err); }
+		res.redirect('/moderator');
 	});
 })
 
@@ -306,7 +357,8 @@ router.get('/auth/google',
  
 router.get('/auth/google/callback', 
 	passport.authenticate('google', { failureRedirect: '/moderator-error' }),
-	function(req, res) {
-    // Successful authentication, redirect success.
-    res.redirect('/moderator-logged-in');
+	function(req, res) 
+	{
+		// Successful authentication, redirect success.
+		res.redirect('/moderator-logged-in');
 	});
