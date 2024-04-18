@@ -14,6 +14,28 @@ var connection = mysql.createConnection(
 	database: 'posts'
 });
 
+function getMedia() 
+{
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query('SELECT * FROM `media`', function (error, results, fields) 
+		{
+			// error will be an Error if one occurred during the query
+			// results will contain the results of the query
+			// fields will contain information about the returned results fields (if any)
+			
+			console.log(results);
+			
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
+
+
 connection.connect(function(err) 
 {
 	if (err) 
@@ -57,16 +79,68 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 	{
 		for(let x = 0; x < media.length; x++)
 		{
-			var filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf(".")) 
-			fs.renameSync(media[x]["path"], filePath)
-				
+			let filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf(".")) 
+			fs.renameSync(media[x]["path"], filePath)	
+			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."))
 			// Insert data into MySQL database
-			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath}', '${postId}')`;
+			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath2}', '${postId}')`;
 			await executeQuery(m_query);	
 		}	
 	}
 	res.redirect('/success');
 });
+
+router.post('/approve-selected', async(req, res) => 
+	{
+		postid = req.body['postid'];
+		const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
+		await executeQuery(query);
+		//console.log(query);
+		var check = req.body.myCheckbox;
+		console.log(req.body.myCheckbox);
+		
+		//const myCheckbox = document.getElementById('myCheckbox');
+		//console.log(myCheckbox.check);
+		if(req.body.myCheckbox == null)
+		{
+			console.log('myCheckbox');
+			const deny_query = `UPDATE submissions SET story= NULL WHERE id=('${postid}')`;
+			await executeQuery(deny_query);
+			
+		}
+		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	});
+	/*
+	if(anonymous="yes") {
+		const query(UPDATE submissions SET name='Anonymous' WHERE id=('${postid}'));
+	}
+	*/
+
+
+
+router.post('/deny-all', async(req, res) => 
+	{
+		postid = req.body['postid'];
+	const query = `DELETE FROM media WHERE id=('${postid}')`;
+	const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+		
+		await executeQuery(query)
+		await executeQuery(query2)
+		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		/*connection.query(query, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});
+		
+		connection.query(query2, (error, results) => 
+		{
+			if (error) throw error;
+			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+		});*/
+	});
+
+
 
 router.post('/new-moderator', (req, res) => 
 	{
@@ -209,6 +283,18 @@ var userProfile;
 router.use(passport.initialize());
 router.use(passport.session());
 
+function getList() {
+	return new Promise(function(resolve, reject) {
+		connection.query('SELECT * FROM `submissions` WHERE `status` = "not approved"', function (error,results, fields) {
+			if(error) {
+				console.log(error);
+				return reject(error);
+			}
+			resolve(results);
+		});
+	});
+}
+
 router.get('/moderator-logged-in', async function(req, res, next) 
 {	
 	//console.log(userProfile);
@@ -218,7 +304,9 @@ router.get('/moderator-logged-in', async function(req, res, next)
 		modEmail = await getModerator(email);
 		if(modEmail == true)
 		{
-			res.render('moderator-logged-in');//if user is logged in with approved email
+			let list = await getList();
+			let mediaList = await getMedia();
+			res.render('moderator-logged-in', {posts: list, media: mediaList});//if user is logged in with approved email
 		}
 		else
 		{
@@ -274,7 +362,3 @@ router.get('/auth/google/callback',
 		// Successful authentication, redirect success.
 		res.redirect('/moderator-logged-in');
 	});
-
-// Try using js file for submission and linking it to pug file to validate files. Would need to use similar code in index.js as well.
-//DELETE FROM modEmails WHERE email='email';
-//saving that for referance
