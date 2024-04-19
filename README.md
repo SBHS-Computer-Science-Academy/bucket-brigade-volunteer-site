@@ -63,5 +63,6 @@ npm audit fix --force
 repeat with:
 
 npm install --save multer
+npm install dotenv --save
 
 npm install jquery
