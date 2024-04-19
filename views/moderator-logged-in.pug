@@ -7,7 +7,12 @@ block content
 		div(class="row")
 			div(class="col-sm-8")
 				div(class="row")
-					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
+					- var postCount = 0
+					each post in posts
+						if post.status == 'not approved'
+						p(class='space')= postCount++
+				
+					h3(style="text-align:center; padding:20px") #[strong New Posts: #{postCount}]
 					#posts 
 						each post in posts
 							- var isChecked = true
