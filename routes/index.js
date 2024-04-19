@@ -97,7 +97,28 @@ router.post('/approve-selected', async(req, res) =>
 		await executeQuery(query);
 		//console.log(query);
 		var check = req.body.myCheckbox;
-		console.log(req.body.myCheckbox);
+		//console.log(req.body);
+		
+		var denied = req.body.denied;
+		console.log(denied);
+		
+		if (Array.isArray(denied))
+		{
+			for (let i = 0; i < denied.length; i++)
+			{
+				let query2 = `DELETE FROM media WHERE m_id='` + denied[i] + `';`;
+				console.log(denied[i]);
+				console.log(query2);
+				await executeQuery(query2);
+			}
+		}
+		else
+		{
+			let query2 = `DELETE FROM media WHERE m_id='` + denied + `';`;
+			console.log(denied);
+			console.log(query2);
+			await executeQuery(query2);
+		}
 		
 		//const myCheckbox = document.getElementById('myCheckbox');
 		//console.log(myCheckbox.check);
@@ -245,8 +266,6 @@ function getMedia()
 			// error will be an Error if one occurred during the query
 			// results will contain the results of the query
 			// fields will contain information about the returned results fields (if any)
-			
-			console.log(results);
 			
 			if (error) {
 				return reject(error);
