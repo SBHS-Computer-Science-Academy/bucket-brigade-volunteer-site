@@ -1,9 +1,21 @@
 # bucket-brigade-volunteer-site
 This project is created by the spring 2024 Computer Science Service Learning class at Santa Barbara High School's Computer Science Academy. It is created for Bucket Brigade in order to provide a website that educates and recruits high school students.
 
-## Create posts database in command line client
+## Create database in DreamHost Server
+
+Directions here: ://help.dreamhost.com/hc/en-us/articles/221691727-Creating-a-MySQL-database
+
+Database name: posts
+
+## Configure posts database in MySQL command line client
+
+only run this if setting up locally; NOT on DreamHost:
 
 CREATE DATABASE posts;
+
+---------------------------------
+
+run these commands on DreamHost and locally:
 
 USE posts;
 
@@ -15,9 +27,9 @@ CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(50
 
 CREATE TABLE modEmails(id int NOT NULL AUTO_INCREMENT, email varchar(200), PRIMARY KEY(id));
 
-CREATE USER 'bbuser'@'localhost'
+CREATE USER 'bbuser'@'localhost' //Localhost is fine if there's only one server
 
-->IDENTIFIED BY 'bbpassword';
+->IDENTIFIED BY 'bbpassword'; //choose a secure password
 
 GRANT ALL
 
@@ -27,9 +39,15 @@ GRANT ALL
 
 //if you get the error: Client does not support authentication protocol...
 
-ALTER USER 'bbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bbpassword';
+ALTER USER 'bbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bbpassword'; //use the same password as above
 
 FLUSH PRIVILEGES;
+
+Set environment variables on the server for the username and password
+
+environment variable name: MySQLUser; value: bbuser
+
+environment variable name: MySQLPassword; value: use secure password above
 
 ## DIRECTIONS FOR INSTALLING REQUIRED PACKAGES
 
@@ -37,7 +55,7 @@ RUN THROUGH COMMAND PROMPT
 
 npm install express ejs express-session passport passport-google-oauth --save
 
-run fix command until there are 0 vulnerabilities
+if there are any vulnerabilities, run fix command below until there are 0 vulnerabilities
 
 npm audit fix
 npm audit fix --force
@@ -45,5 +63,6 @@ npm audit fix --force
 repeat with:
 
 npm install --save multer
+npm install dotenv --save
 
 npm install jquery

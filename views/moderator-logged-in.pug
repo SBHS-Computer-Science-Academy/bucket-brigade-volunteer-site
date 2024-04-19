@@ -34,6 +34,9 @@ block content
 										div.btn-group
 										form(action="/approve-selected" method="POST")
 											input(type="hidden" name="postid" value=Id)
+                      div(class="form-check")
+													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
+													label(class="form-check-label") #[strong Include Text]
 											
 											div(id='elems')
 												each img in media
@@ -42,9 +45,7 @@ block content
 														input(type='hidden' id=mID name='denied' value=mID)
 											
 											button(type="submit" class="btn btn-success") #[strong Approve Selected]
-											div(class="form-check")
-													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
-													label(class="form-check-label") #[strong Include Text]
+											
 										form(action="/deny-all", method="POST")
 											input(type="hidden" name="postid" value=Id)
 											button(type="submit" class="btn btn-danger") #[strong Deny All]

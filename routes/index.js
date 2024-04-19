@@ -95,10 +95,7 @@ router.post('/approve-selected', async(req, res) =>
 		postid = req.body['postid'];
 		const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
 		await executeQuery(query);
-		//console.log(query);
-		var check = req.body.myCheckbox;
-		//console.log(req.body);
-		
+    var check = req.body.myCheckbox;
 		var denied = req.body.denied;
 		console.log(denied);
 		
@@ -119,46 +116,28 @@ router.post('/approve-selected', async(req, res) =>
 			console.log(query2);
 			await executeQuery(query2);
 		}
-		
-		//const myCheckbox = document.getElementById('myCheckbox');
-		//console.log(myCheckbox.check);
 		if(req.body.myCheckbox == null)
 		{
-			console.log('myCheckbox');
+
 			const deny_query = `UPDATE submissions SET story= NULL WHERE id=('${postid}')`;
 			await executeQuery(deny_query);
 			
 		}
 		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
 	});
-	/*
-	if(anonymous="yes") {
-		const query(UPDATE submissions SET name='Anonymous' WHERE id=('${postid}'));
-	}
-	*/
 
 
 
 router.post('/deny-all', async(req, res) => 
 	{
 		postid = req.body['postid'];
-	const query = `DELETE FROM media WHERE id=('${postid}')`;
-	const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+		const query = `DELETE FROM media WHERE id=('${postid}')`;
+		const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+
 		
 		await executeQuery(query)
 		await executeQuery(query2)
 		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
-		/*connection.query(query, (error, results) => 
-		{
-			if (error) throw error;
-			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
-		});
-		
-		connection.query(query2, (error, results) => 
-		{
-			if (error) throw error;
-			res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
-		});*/
 	});
 
 
@@ -166,7 +145,7 @@ router.post('/deny-all', async(req, res) =>
 router.post('/new-moderator', (req, res) => 
 	{
 		email = req.body['modEmail'];
-	const query = `INSERT INTO modEmails (email) VALUES ('${email}')`;
+		const query = `INSERT INTO modEmails (email) VALUES ('${email}')`;
 		
 		connection.query(query, (error, results) => 
 		{
@@ -180,7 +159,7 @@ router.post('/remove-moderator', (req,res) =>
 		console.log(req.body)
 		email = req.body['modEmail'];
 		console.log(email)
-	const query = `DELETE FROM modEmails WHERE email='${email}'`;
+		const query = `DELETE FROM modEmails WHERE email='${email}'`;
 	
 		connection.query(query, (error, results) => 
 		{
