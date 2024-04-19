@@ -95,16 +95,36 @@ router.post('/approve-selected', async(req, res) =>
 		postid = req.body['postid'];
 		const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
 		await executeQuery(query);
-		var check = req.body.myCheckbox;
+    var check = req.body.myCheckbox;
+		var denied = req.body.denied;
+		console.log(denied);
+		
+		if (Array.isArray(denied))
+		{
+			for (let i = 0; i < denied.length; i++)
+			{
+				let query2 = `DELETE FROM media WHERE m_id='` + denied[i] + `';`;
+				console.log(denied[i]);
+				console.log(query2);
+				await executeQuery(query2);
+			}
+		}
+		else
+		{
+			let query2 = `DELETE FROM media WHERE m_id='` + denied + `';`;
+			console.log(denied);
+			console.log(query2);
+			await executeQuery(query2);
+		}
 		if(req.body.myCheckbox == null)
 		{
+
 			const deny_query = `UPDATE submissions SET story= NULL WHERE id=('${postid}')`;
 			await executeQuery(deny_query);
 			
 		}
 		res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
 	});
-	
 
 
 
@@ -113,6 +133,7 @@ router.post('/deny-all', async(req, res) =>
 		postid = req.body['postid'];
 		const query = `DELETE FROM media WHERE id=('${postid}')`;
 		const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+
 		
 		await executeQuery(query)
 		await executeQuery(query2)
@@ -224,8 +245,6 @@ function getMedia()
 			// error will be an Error if one occurred during the query
 			// results will contain the results of the query
 			// fields will contain information about the returned results fields (if any)
-			
-			console.log(results);
 			
 			if (error) {
 				return reject(error);

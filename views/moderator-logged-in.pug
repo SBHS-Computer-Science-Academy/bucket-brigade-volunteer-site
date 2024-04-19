@@ -7,7 +7,12 @@ block content
 		div(class="row")
 			div(class="col-sm-8")
 				div(class="row")
-					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
+					- var postCount = 0
+					each post in posts
+						if post.status == 'not approved'
+						p(class='space')= postCount++
+				
+					h3(style="text-align:center; padding:20px") #[strong New Posts: #{postCount}]
 					#posts 
 						each post in posts
 							- var isChecked = true
@@ -17,23 +22,33 @@ block content
 										#media
 											each img in media
 												if img.id == post.id
+													- var mID = img.m_id
 													- var path = img.path
-													img(src=path alt="placeholder image" style="width:50%" class="grid-item")
-											button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
-										div(class="card-body")
-											- var Id= post.id
-											h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
-											p #{post.story}
-												div.btn-group
-												form(action="/approve-selected" method="POST")
-													input(type="hidden" name="postid" value=Id)
-													div(class="form-check")
-														input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
-														label(class="form-check-label") #[strong Include Text]
-													button(type="submit" class="btn btn-success") #[strong Approve Selected]
-												form(action="/deny-all", method="POST")
-													input(type="hidden" name="postid" value=Id)
-													button(type="submit" class="btn btn-danger") #[strong Deny All]
+													img(src=path alt="placeholder image" id=mID style="width:50%" class="grid-item")
+											
+								div(class="card-body")
+									button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
+									- var Id= post.id
+									h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
+									p #{post.story}
+										div.btn-group
+										form(action="/approve-selected" method="POST")
+											input(type="hidden" name="postid" value=Id)
+                      div(class="form-check")
+													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
+													label(class="form-check-label") #[strong Include Text]
+											
+											div(id='elems')
+												each img in media
+													if img.id == post.id
+														- var mID = img.m_id
+														input(type='hidden' id=mID name='denied' value=mID)
+											
+											button(type="submit" class="btn btn-success") #[strong Approve Selected]
+											
+										form(action="/deny-all", method="POST")
+											input(type="hidden" name="postid" value=Id)
+											button(type="submit" class="btn btn-danger") #[strong Deny All]
 													
 									
 							
