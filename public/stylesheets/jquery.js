@@ -24,15 +24,20 @@ $(document).ready(function()
 	$(".grid-item").click(function() 
 	{
 		//$(this).css("opacity", "0.75");
+		var mID = $(this).attr("id");
+		var ID = '#' + mID;
+		var txt = "<input type='hidden' id=" + mID + " name='denied' value=" + mID + ">";
 		if (selectingImages == true)
 		{
 			if ($(this).hasClass("selected"))
 			{
+				$('#elems').append(txt);
 				$(this).removeClass("selected");
 				$(this).css("opacity", "0.75");
 			}
 			else
 			{
+				$('input').remove(ID);
 				$(this).addClass("selected");
 				$(this).css("opacity", "1.0");
 			}
