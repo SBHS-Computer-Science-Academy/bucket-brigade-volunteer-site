@@ -64,6 +64,6 @@ npm install dotenv --save
 
 npm install jquery
 
-## SETTING UP ENV FILE
+## UPDATING ENV FILE
 
 Update the .env file with the new session secret and new google oauth secret
