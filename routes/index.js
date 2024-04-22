@@ -95,7 +95,7 @@ router.post('/approve-selected', async(req, res) =>
 		postid = req.body['postid'];
 		const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
 		await executeQuery(query);
-    var check = req.body.myCheckbox;
+		var check = req.body.myCheckbox;
 		var denied = req.body.denied;
 		console.log(denied);
 		
@@ -109,6 +109,10 @@ router.post('/approve-selected', async(req, res) =>
 				await executeQuery(query2);
 			}
 		}
+		else if (denied == null)
+		{
+			console.log('No images to deny');
+		}
 		else
 		{
 			let query2 = `DELETE FROM media WHERE m_id='` + denied + `';`;
@@ -116,6 +120,8 @@ router.post('/approve-selected', async(req, res) =>
 			console.log(query2);
 			await executeQuery(query2);
 		}
+		
+		
 		if(req.body.myCheckbox == null)
 		{
 
