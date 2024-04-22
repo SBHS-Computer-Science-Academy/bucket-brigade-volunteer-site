@@ -43,11 +43,7 @@ ALTER USER 'bbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bbpass
 
 FLUSH PRIVILEGES;
 
-Set environment variables on the server for the username and password
-
-environment variable name: MySQLUser; value: bbuser
-
-environment variable name: MySQLPassword; value: use secure password above
+Update the .env file with the secure password from above
 
 ## DIRECTIONS FOR INSTALLING REQUIRED PACKAGES
 
