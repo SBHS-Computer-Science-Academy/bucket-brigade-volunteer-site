@@ -54,6 +54,7 @@ npm install express ejs express-session passport passport-google-oauth --save
 if there are any vulnerabilities, run fix command below until there are 0 vulnerabilities
 
 npm audit fix
+
 npm audit fix --force
 
 repeat with:
@@ -62,3 +63,7 @@ npm install --save multer
 npm install dotenv --save
 
 npm install jquery
+
+## UPDATING ENV FILE
+
+Update the .env file with the new session secret and new google oauth secret
