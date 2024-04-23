@@ -27,6 +27,10 @@ CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(50
 
 CREATE TABLE modEmails(id int NOT NULL AUTO_INCREMENT, email varchar(200), PRIMARY KEY(id));
 
+INSERT INTO modEmails(email) 
+
+VALUES('insert moderator email');
+
 CREATE USER 'bbuser'@'localhost' //Localhost is fine if there's only one server
 
 ->IDENTIFIED BY 'bbpassword'; //choose a secure password
