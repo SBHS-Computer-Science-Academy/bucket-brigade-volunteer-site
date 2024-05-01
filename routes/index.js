@@ -206,9 +206,11 @@ router.post('/remove-moderator', (req,res) =>
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) 
+router.get('/', async function(req, res, next) 
 {	
-	res.render('index', { title: 'Home', active_page: 'home' });
+	let postList = await getPosts();
+	let mediaList = await getMedia();
+	res.render('index', { title: 'Home', active_page: 'home' , posts: postList, media: mediaList});
 });
 
 /* GET volunteer hub page. */
