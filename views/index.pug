@@ -10,10 +10,11 @@ block content
 		div(class="row")
 			div(class="col-xl")
 				p(class="space") space
+			// Featured Posts
 		
-		// Featured Posts
 		h1(class="red" style="text-align:center") #[strong Featured Student Posts]
 		div(class="row")
+
 			- var postCount = 0
 			div(class="col-xl-1")
 			
@@ -93,9 +94,10 @@ block content
 										h4 #{post.name}, Grade #{post.grade} at #{post.school}
 									else
 										h4 Anonymous
-				
-				
+
+							
 			div(class="col-xl-1")
+			
 		br
 		div(class="row")
 			div(class="col-xl")
@@ -245,4 +247,4 @@ block content
 			
 		div(class="row")
 			p(style="text-align:center") #[strong Disclaimer:] Bucket Brigade is not an SBHS Sponsored activity.
-		
+	
