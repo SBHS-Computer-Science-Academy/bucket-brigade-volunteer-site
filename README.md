@@ -27,6 +27,10 @@ CREATE TABLE media(m_id int PRIMARY KEY NOT NULL AUTO_INCREMENT, path varchar(50
 
 CREATE TABLE modEmails(id int NOT NULL AUTO_INCREMENT, email varchar(200), PRIMARY KEY(id));
 
+INSERT INTO modEmails(email) 
+
+VALUES('insert moderator email');
+
 CREATE USER 'bbuser'@'localhost' //Localhost is fine if there's only one server
 
 ->IDENTIFIED BY 'bbpassword'; //choose a secure password
@@ -54,6 +58,7 @@ npm install express ejs express-session passport passport-google-oauth --save
 if there are any vulnerabilities, run fix command below until there are 0 vulnerabilities
 
 npm audit fix
+
 npm audit fix --force
 
 repeat with:
@@ -62,3 +67,7 @@ npm install --save multer
 npm install dotenv --save
 
 npm install jquery
+
+## UPDATING ENV FILE
+
+Update the .env file with the new session secret and new google oauth secret

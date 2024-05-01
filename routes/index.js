@@ -3,16 +3,45 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest:'uploads/'});
 const fs = require("fs");
+require('dotenv').config()
 
 //connect to posts database (lines 5-23)
 var mysql = require('mysql');
 var connection = mysql.createConnection(
 {
 	host	: 'localhost',
-	user	: 'bbuser', //to be set by developers
-	password: 'bbpassword', //to be set by developers
+	user	: process.env.MYSQL_USER, 
+	password: process.env.MYSQL_PASSWORD, 
 	database: 'posts'
 });
+
+module.exports = router;
+
+const session = require('express-session');
+router.use(session({
+	resave: false,
+	saveUninitialized: false,
+	secret: process.env.SESSION_SECRET 
+}));
+
+const passport = require('passport');
+var userProfile;
+router.use(passport.initialize());
+router.use(passport.session());
+
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GOOGLE_CLIENT_ID = '736425525258-sl4pa7800796fbqv5fsqpgmef707j49n.apps.googleusercontent.com';//
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_OAUTH_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback"
+	},
+	function(accessToken, refreshToken, profile, done) 
+	{
+		userProfile=profile;
+		return done(null, userProfile);
+	}
+));
 
 function getMedia() 
 {
@@ -214,14 +243,7 @@ router.get('/success', function(req, res, next)
   res.render('success', { title: 'success', active_page: 'success' });
 });
 
-module.exports = router;
 
-const session = require('express-session');
-router.use(session({
-	resave: false,
-	saveUninitialized: false,
-	secret: 'SECRET' //TODO CHANGE THIS TO ACCESS TO AN ENVIRONMENT VARIABLE
-}));
 
 function getPosts() 
 {
@@ -284,11 +306,6 @@ function getModerator(email){
 	});
 }
 
-const passport = require('passport');
-var userProfile;
-router.use(passport.initialize());
-router.use(passport.session());
-
 function getList() {
 	return new Promise(function(resolve, reject) {
 		connection.query('SELECT * FROM `submissions` WHERE `status` = "not approved"', function (error,results, fields) {
@@ -334,20 +351,6 @@ passport.deserializeUser(function(obj, cb)
 {
 	cb(null, obj);
 });
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const GOOGLE_CLIENT_ID = '736425525258-sl4pa7800796fbqv5fsqpgmef707j49n.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-	},
-	function(accessToken, refreshToken, profile, done) 
-	{
-		userProfile=profile;
-		return done(null, userProfile);
-	}
-));
 
 router.post("/logout", (req,res) => 
 {
