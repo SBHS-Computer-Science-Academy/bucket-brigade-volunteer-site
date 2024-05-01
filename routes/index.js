@@ -210,7 +210,7 @@ router.get('/', async function(req, res, next)
 {	
 	let postList = await getPosts();
 	let mediaList = await getMedia();
-	res.render('index', { title: 'Home', active_page: 'home' , posts: postList, media: mediaList});
+	res.render('index', { title: 'Home', active_page: 'home', posts: postList, media: mediaList});
 });
 
 /* GET volunteer hub page. */
