@@ -10,8 +10,8 @@ block content
 		div(class="row")
 			div(class="col-xl")
 				p(class="space") space
-			// Featured Posts
-		
+			
+		// Featured Posts
 		h1(class="red" style="text-align:center") #[strong Featured Student Posts]
 		div(class="row")
 
@@ -24,7 +24,7 @@ block content
 					- var imgCount = 0
 					- var carouselId = 'n' + post.id
 					- var carId = '#' + carouselId
-					- var k = 0
+					- var carItemCount = 0
 					
 					
 					div(class="col-xl")
@@ -53,7 +53,7 @@ block content
 										div(class="carousel-inner")
 											each img in media
 												if img.id == post.id
-													- var l = k++
+													- var l = carItemCount++
 													- var path = img.path
 													if l == 0
 														div(class="carousel-item featuredPost active")

@@ -14,12 +14,12 @@ block content
 				p(class='space')
 				
 		//post template
-		-var ID = 0
+		- var ID = 0
 		#posts
 			each post in posts
-				-var carouselId = 'n' + ID
-				-var carId = '#' + carouselId
-				- var k = 0
+				- var carouselId = 'n' + ID
+				- var carId = '#' + carouselId
+				- var carItemCount = 0
 				
 				- var imgCount = 0
 
@@ -60,7 +60,7 @@ block content
 								div(class='carousel-inner')
 									each img in media
 										if img.id == post.id
-											- var l = k++
+											- var l = carItemCount++
 											- var path = img.path
 											if l == 0
 												div(class='carousel-item post active')

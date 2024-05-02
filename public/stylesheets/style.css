@@ -201,10 +201,3 @@ a:hover
 {
 	color: #73b326;
 }
-
-/*
-INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('Adan Galindo', '12', 'Santa Barbara Senior High School', 'no', '04/10/24', 'Academy', 'I attended the academy and learned how to perform CPR on a baby!', 'not approved');
-UPDATE submissions SET story = 'I attended the academy and learned how to perform CPR on a baby!' WHERE id=7;
-UPDATE submissions SET story = 'I attended the academy and learned how to perform CPR on a baby!' WHERE id=1;
-UPDATE submissions SET status = 'not approved' WHERE id=1;
-*/
