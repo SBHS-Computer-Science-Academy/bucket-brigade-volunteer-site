@@ -156,3 +156,20 @@ a:hover
 {
 	color: #73b326;
 }
+
+span
+{
+	color: #cc0001;
+}
+
+.form-control
+{
+	width: 200px;
+	border-color: #000000
+}
+
+.form-control select {
+	border-color: #000000
+}
+
+

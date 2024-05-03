@@ -5,16 +5,23 @@ block content
 		h1(class="red") #[strong Create your post]
 		p If you have volunteered with the Bucket Brigade and would like to share your experience feel free to send us your review below. You can include photos, videos, and/or written responses.
 		
+		a
+		span(style='color: red;') *
+		span(style='color: black;') indicates a required question.
+		
+		p(class="space") space
 		
 		form(action="/submit_form", method="POST", enctype="multipart/form-data", class="needs-validation")
 			p
-				label(for="name") What is your first and last name?*:
+				label(for="name") What is your first and last name?
+				span(style='color: red;') *
 			p
-				input(id="name", type="text", name="name", placeholder="", required)
+				input.form-control(id="name", type="text", name="name", placeholder="", required)
 			p
-				label(for="grade") What grade are you in?*:
+				label(for="grade") What grade are you in?
+				span(style='color: red;') *
 			p
-				select(id="grade", name="grade", required)
+				select.form-control select(id="grade", name="grade", required)
 					option(value="") 
 					option(value="9") 9
 					option(value="10") 10
@@ -23,22 +30,25 @@ block content
 			p
 				label(for="school") What school do you go to?:
 			p
-				input(id="school", type="text", name="school", placeholder="") 
+				input.form-control(id="school", type="text", name="school", placeholder="") 
 			p
-				label(for="anonymous") Would you like this submission to be anonymous once it's posted?*:
+				label(for="anonymous") Would you like this submission to be anonymous once it's posted?
+				span(style='color: red;') *
 			p
-				select(id="anonymous", name="anonymous", required)
+				select.form-control select(id="anonymous", name="anonymous", required)
 					option(value="")
 					option(value="yes") Yes
 					option(value="no") No
 			p
-				label(for="date") When did you volunteer?*:
+				label(for="date") When did you volunteer?
+				span(style='color: red;') *
 			p
-				input(id="date", type="text", name="date", placeholder="", required)
+				input.form-control(id="date", type="text", name="date", placeholder="", required)
 			p
-				label(for="work") What volunteering did you do?*:
+				label(for="work") What volunteering did you do?
+				span(style='color: red;') *
 			p
-				select(id="work", name="work", required)
+				select.form-control select(id="work", name="work", required)
 					option(value="")
 					option(value="humanitarian garden") Humanitarian Garden
 					option(value="academy") Academy
@@ -46,7 +56,7 @@ block content
 			p
 				label(for="story") Write your review/story/experience below:
 			p
-				input#story(type="text", name="story", placeholder="", class="input-textbox")
+				textarea(id="myTextArea" name="myTextArea" class="form-control")
 			p
 				label(for="media") Upload photos/videos below (accepts png, jpg, jpeg, GIF, MOV, heif, MP4, WEBM):
 			p
