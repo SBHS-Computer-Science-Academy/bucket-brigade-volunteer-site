@@ -24,14 +24,27 @@ html(lang="en")
 							else
 								a(class="nav-link", href="/") #[strong Home]
 						li(class="nav-item")
-							if active_page == "hub"
-								a(class="nav-link active", href="/volunteer-hub") #[strong Volunteer Hub]
-							else
-								a(class="nav-link", href="/volunteer-hub") #[strong Volunteer Hub]
+							a(class="nav-link", data-bs-toggle="modal", data-bs-target="#myModal") #[strong Volunteer Hub]
 						li(class="nav-item")
 							if active_page == "experience"
 								a(class="nav-link active", href="/volunteer-experiences") #[strong Volunteer Experiences]
 							else
 								a(class="nav-link", href="/volunteer-experiences") #[strong Volunteer Experiences]
 		
+		
+		div(class="modal" id="myModal")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						h2(class="modal-title") Warning!
+						button(type="button" class="btn-close" data-bs-dismiss="modal")
+		
+					div(class="modal-body")
+						p(style="font-size:25px") You are being redirected to a new site.
+						p You're about to be taken to the Bucket Brigade Volunteer Hub website. If you wish to stay on this page, click on "Stay on current page".
+					div(class="modal-footer")
+						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Stay on current page
+						a(type="button" class="btn btn-danger" href="https://bucketbrigade.volunteerhub.com/vv2/" target="_blank") Open Volunteer Hub
+		
 		block content
+		
