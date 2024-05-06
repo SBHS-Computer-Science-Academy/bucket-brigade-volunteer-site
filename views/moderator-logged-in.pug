@@ -2,31 +2,56 @@ extends layout
 
 block content
 	form(action="/logout" method="POST")
-		button(type="submit") Logout
+		button(type="submit" class="btn btn-danger btn-lg") Logout
 	div.body
 		div(class="row")
 			div(class="col-sm-8")
 				div(class="row")
-					h3(style="text-align:center; padding:20px") #[strong New Posts: #]
-				div(class="card")
-					div(class="card-header")
-						div.grid
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-							img(src="/images/placeholder2.png" alt="placeholder image" style="width:50%" class="grid-item")
-						button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
-					div(class="card-body")
-						h3 #[strong Header]  
-						p.
-							Text Box --
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						div.btn-group
-							button(type="button" class="btn btn-success") #[strong Approve Selected]
-							button(type="button" class="btn btn-danger") #[strong Deny All]
+					- var postCount = 0
+					each post in posts
+						if post.status == 'not approved'
+						p(class='space')= postCount++
 				
+					h3(style="text-align:center; padding:20px") #[strong New Posts: ##{postCount}]
+					#posts 
+						each post in posts
+							- var isChecked = true
+							div(class="card")
+								div(class="card-header")
+									div.grid
+										#media
+											each img in media
+												if img.id == post.id
+													- var mID = img.m_id
+													- var path = img.path
+													img(src=path alt="placeholder image" id=mID style="width:50%" class="grid-item")
+											
+								div(class="card-body")
+									button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
+									- var Id= post.id
+									h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
+									p #{post.story}
+										div.btn-group
+										form(action="/approve-selected" method="POST")
+											input(type="hidden" name="postid" value=Id)
+											div(class="form-check")
+													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
+													label(class="form-check-label") #[strong Include Text]
+											
+											div(id='elems')
+												each img in media
+													if img.id == post.id
+														- var mID = img.m_id
+														input(type='hidden' id=mID name='denied' value=mID)
+											
+											button(type="submit" class="btn btn-success") #[strong Approve Selected]
+											
+										form(action="/deny-all", method="POST")
+											input(type="hidden" name="postid" value=Id)
+											button(type="submit" class="btn btn-danger") #[strong Deny All]
+													
+									
+							
 			div(class="col-sm-1")
 				div(class="row")
 					div(class="col-sm")
@@ -36,30 +61,11 @@ block content
 				h3.space space
 				div(class="d-grid")
 				form(action="/remove-moderator", method="POST")
-					input(type="text", name="modEmail", placeholder="moderator email")
+					input(type="text", name="modEmail", placeholder="Moderator email")
 					button(type="submit" class="btn btn-danger") #[strong Remove Moderator]
 					
 				h3.space space
 				div(class="d-grid")
 				form(action="/new-moderator", method="POST")
-					input(type="text", name="modEmail", placeholder="moderator email")
+					input(type="text", name="modEmail", placeholder="Moderator email")
 					button(type="submit" class="btn btn-success btn-block") #[strong Add New Moderator]
-					
-						
-						
-		div(class="modal" id="myModal")
-			div(class="modal-dialog modal-dialog-centered")
-				div(class="modal-content")
-
-					div(class="modal-body")
-						img(src="/images/placeholder2.png" alt="placeholder image" style="width:100%")
-						
-					div(class="modal-footer")
-						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close
-	
-	//center logged in and with an approved moderator email! Hooray!
-	form(action="/logout" method="POST")
-		button.float-end(type="submit") Logout
-		//float-end
-		//INSERT INTO modEmails (emails)
-		//VALUES('email')

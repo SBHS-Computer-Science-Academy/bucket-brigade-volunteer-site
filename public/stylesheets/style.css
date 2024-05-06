@@ -31,15 +31,28 @@ body {
 	padding: 15px;
 }
 
+.box
+{
+	overflow-y: auto;
+	height: 215px;
+}
+
+.textOnlyBox
+{
+	overflow-y: auto;
+	height: 485px;
+}
+
 .navbar 
 {
 	font-size: 20px;
 	background-color: #cc0001;
 }
 
-.space 
+.space
 {
 	color: #FFFFFF;
+	font-size: 1px;
 }
 
 .right 
@@ -96,6 +109,38 @@ div.grid
 .grid-item:hover
 {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.post img 
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	max-width: 585px;
+	height: auto;
+	max-height: 325px;
+}
+
+.featuredPost img 
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	max-width: 500px;
+	height: auto;
+	max-height: 255px;
+}
+
+.carousel-item
+{
+	background-image: url("/images/background.jpg");
+}
+
+a 
+{
+  color: #00B7FF;
 }
 
 .contain {
@@ -171,5 +216,4 @@ span
 .form-control select {
 	border-color: #000000
 }
-
 

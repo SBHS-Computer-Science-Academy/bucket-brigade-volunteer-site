@@ -16,12 +16,12 @@ block content
 				label(for="name") What is your first and last name?
 				span(style='color: red;') *
 			p
-				input.form-control(id="name", type="text", name="name", placeholder="", required)
+				input(id="name", type="text", name="name", placeholder="", class="form-control", required)
 			p
 				label(for="grade") What grade are you in?
 				span(style='color: red;') *
 			p
-				select.form-control select(id="grade", name="grade", required)
+				select(id="grade", name="grade", class="form-control", required)
 					option(value="") 
 					option(value="9") 9
 					option(value="10") 10
@@ -30,12 +30,12 @@ block content
 			p
 				label(for="school") What school do you go to?:
 			p
-				input.form-control(id="school", type="text", name="school", placeholder="") 
+				input(id="school", type="text", name="school", class="form-control",placeholder="") 
 			p
 				label(for="anonymous") Would you like this submission to be anonymous once it's posted?
 				span(style='color: red;') *
 			p
-				select.form-control select(id="anonymous", name="anonymous", required)
+				select(id="anonymous", name="anonymous", class="form-control", required)
 					option(value="")
 					option(value="yes") Yes
 					option(value="no") No
@@ -43,16 +43,17 @@ block content
 				label(for="date") When did you volunteer?
 				span(style='color: red;') *
 			p
-				input.form-control(id="date", type="text", name="date", placeholder="", required)
+				input(id="date", type="text", name="date", placeholder="", class="form-control", required)
 			p
 				label(for="work") What volunteering did you do?
 				span(style='color: red;') *
 			p
-				select.form-control select(id="work", name="work", required)
+				select(id="work", name="work", class="form-control", required)
 					option(value="")
 					option(value="humanitarian garden") Humanitarian Garden
+					option(value="yankee farm") Yankee Farm
 					option(value="academy") Academy
-					option(value="post-disaster community restoration and assistance") Post-disaster community restoration and assistance"
+					option(value="post-disaster community restoration and assistance") Post-disaster community restoration and assistance
 			p
 				label(for="story") Write your review/story/experience below:
 			p
@@ -84,3 +85,4 @@ block content
 						form.classList.add('was-validated')
 					}, false)
 				})
+
