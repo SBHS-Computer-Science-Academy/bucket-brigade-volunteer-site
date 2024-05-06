@@ -89,8 +89,10 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 	const { name, grade, school, anonymous, date, work, story } = req.body;
 	const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', 'not approved')`; 
 	var results = await executeQuery(query);
-	var postId = results["insertedId"];
-
+	var postId = results["insertId"];
+	console.log(postId);
+	console.log(results);
+	
 	media = req["files"] 
 
 	if (media != "")
@@ -101,6 +103,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			fs.renameSync(media[x]["path"], filePath);
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
+			console.log(postId);
 			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath2}', '${postId}')`;
 			await executeQuery(m_query);	
 		}	
