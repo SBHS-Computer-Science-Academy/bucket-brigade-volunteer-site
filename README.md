@@ -69,7 +69,7 @@ npm install dotenv --save
 
 npm install jquery
 
-npm install sql-template-tag --save
+npm install sql-template-strings
 
 ## UPDATING ENV FILE
 
