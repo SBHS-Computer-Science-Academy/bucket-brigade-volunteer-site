@@ -34,7 +34,7 @@ block content
 						
 						if imgCount == 0
 							span(class='space')
-						
+							
 						div(class="card")
 							if imgCount > 0
 								div(class="card-header")
@@ -71,7 +71,7 @@ block content
 										
 										
 								div(class="card-body box")
-									p #[strong #{post.work}]
+									p(class='red') #[strong #{post.work}]
 									p(style="font-size: 20px").
 										#{post.story}
 									p(class='space')= postCount++

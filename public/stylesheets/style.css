@@ -138,6 +138,16 @@ div.grid
 	background-image: url("/images/background.jpg");
 }
 
+.carousel-control-prev-icon, .carousel-control-next-icon 
+{
+	height: 30px;
+	width: 30px;
+	outline: black;
+	background-color: rgba(0, 0, 0, 0.3);
+	background-size: 100%, 100%;
+	border-radius: 50%;
+}
+
 a 
 {
   color: #00B7FF;

@@ -44,6 +44,35 @@ block content
 									else
 										h4 Anonymous
 										
+					if imgCount == 1
+						div(class='col-xl outline')
+							div(id=carouselId class='carousel slide' data-bs-ride='carousel')
+								
+								div(class='carousel-inner')
+									each img in media
+										if img.id == post.id
+											- var l = carItemCount++
+											- var path = img.path
+											if l == 0
+												div(class='carousel-item post active')
+													img(src=path alt='placeholder image' class='d-block')
+											else if l > 0
+												div(class='carousel-item post')
+													img(src=path alt='placeholder image' class='d-block')
+						
+						div(class='col-xl outline')
+							div(class='card')
+								div(class='card-header')
+									h3(class='red') #[strong #{post.work}] 
+								div(class='card-body box')
+									p(style="opacity: 75%") #{post.date}
+									p #{post.story}
+								div(class='card-footer')
+									if post.anonymous == 'no'
+										h4 #{post.name}, Grade #{post.grade} at #{post.school}
+									else
+										h4 Anonymous
+									
 					else
 						div(class='col-xl outline')
 							div(id=carouselId class='carousel slide' data-bs-ride='carousel')
