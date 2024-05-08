@@ -6,6 +6,7 @@ const fs = require("fs");
 require('dotenv').config();
 
 var mysql = require('mysql');
+var sql = require('sql-template-strings');
 var connection = mysql.createConnection(
 {
 	host	: 'localhost',
@@ -87,7 +88,7 @@ function executeQuery(query)
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
 {
 	const { name, grade, school, anonymous, date, work, story } = req.body;
-	const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', 'not approved')`; 
+	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved')`; 
 	var results = await executeQuery(query);
 	var postId = results["insertId"];
 	console.log(postId);
@@ -104,7 +105,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			console.log(postId);
-			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath2}', '${postId}')`;
+			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
 			await executeQuery(m_query);	
 		}	
 	}
@@ -114,7 +115,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 router.post('/approve-selected', async(req, res) => 
 {
 	postid = req.body['postid'];
-	const query = `UPDATE submissions SET status='approved' WHERE id=('${postid}')`;
+	const query = sql`UPDATE submissions SET status='approved' WHERE id=(${postid})`;
 	await executeQuery(query);
 	var check = req.body.myCheckbox;
 	var denied = req.body.denied;
@@ -123,7 +124,7 @@ router.post('/approve-selected', async(req, res) =>
 	{
 		for (let i = 0; i < denied.length; i++)
 		{
-			let query2 = `DELETE FROM media WHERE m_id='` + denied[i] + `';`;
+			let query2 = sql`DELETE FROM media WHERE m_id='` + denied[i] + `';`;
 			await executeQuery(query2);
 		}
 	}
@@ -133,13 +134,13 @@ router.post('/approve-selected', async(req, res) =>
 	}
 	else
 	{
-		let query2 = `DELETE FROM media WHERE m_id='` + denied + `';`;
+		let query2 = sql`DELETE FROM media WHERE m_id='` + denied + `';`;
 		await executeQuery(query2);
 	}
 	
 	if(req.body.myCheckbox == null)
 	{
-		const deny_query = `UPDATE submissions SET story= NULL WHERE id=('${postid}')`;
+		const deny_query = sql`UPDATE submissions SET story= NULL WHERE id=(${postid})`;
 		await executeQuery(deny_query);
 		
 	}
@@ -149,8 +150,8 @@ router.post('/approve-selected', async(req, res) =>
 router.post('/deny-all', async(req, res) => 
 {
 	postid = req.body['postid'];
-	const query = `DELETE FROM media WHERE id=('${postid}')`;
-	const query2 = `DELETE FROM submissions WHERE id=('${postid}')`;
+	const query = sql`DELETE FROM media WHERE id=(${postid})`;
+	const query2 = sql`DELETE FROM submissions WHERE id=(${postid})`;
 	await executeQuery(query);
 	await executeQuery(query2);
 	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
@@ -159,7 +160,7 @@ router.post('/deny-all', async(req, res) =>
 router.post('/new-moderator', async(req, res) => 
 {
 	email = req.body['modEmail'];
-	const query = `INSERT INTO modEmails (email) VALUES ('${email}')`;
+	const query = sql`INSERT INTO modEmails (email) VALUES (${email})`;
 	await executeQuery(query);
 	res.redirect('/moderator-logged-in'); // Redirect to a success page after insertion
 });
@@ -167,7 +168,7 @@ router.post('/new-moderator', async(req, res) =>
 router.post('/remove-moderator', async(req,res) =>
 {
 	email = req.body['modEmail'];
-	const query = `DELETE FROM modEmails WHERE email='${email}'`;
+	const query = sql`DELETE FROM modEmails WHERE email = ${email}`;
 	await executeQuery(query);
 	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
 });
@@ -175,8 +176,10 @@ router.post('/remove-moderator', async(req,res) =>
 /* GET home page. */
 router.get('/', async function(req, res, next) 
 {	
-	let postList = await executeQuery('SELECT * FROM `submissions` WHERE `status`="approved"');
-	let mediaList = await executeQuery('SELECT * FROM `media`');
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
+	const query2 = sql`SELECT * FROM media`
+	let postList = await executeQuery(query);
+	let mediaList = await executeQuery(query2);
 	res.render('index', { title: 'Home', active_page: 'home', posts: postList, media: mediaList});
 });
 
@@ -189,8 +192,10 @@ router.get('/volunteer-hub', function(req, res, next)
 /* GET volunteer experiences page. */
 router.get('/volunteer-experiences', async function(req, res, next) 
 {
-	let postList = await executeQuery('SELECT * FROM `submissions` WHERE `status`="approved"');
-	let mediaList = await executeQuery('SELECT * FROM `media`');
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
+	const query2 = sql`SELECT * FROM media`
+	let postList = await executeQuery(query);
+	let mediaList = await executeQuery(query2);
 	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: postList, media: mediaList});
 });
 
@@ -213,15 +218,18 @@ router.get('/moderator-logged-in', async function(req, res, next)
 	if(req.isAuthenticated())
 	{
 		email = userProfile['_json']['email'];
-		results = await executeQuery("SELECT * FROM modEmails WHERE email = '"+email+"';");
+		const query = sql`SELECT * FROM modEmails WHERE email = ${email}`
+		results = await executeQuery(query);
 		if(results.length == 0)
 		{
 			res.redirect('/');//if user logged in the mod login and email isn't in the moderator database
 		}
 		else
 		{
-			let list = await executeQuery('SELECT * FROM `submissions` WHERE `status` = "not approved"');
-			let mediaList = await executeQuery('SELECT * FROM `media`');
+			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`
+			const query2 = sql`SELECT * FROM media`
+			let list = await executeQuery(query);
+			let mediaList = await executeQuery(query2);
 			res.render('moderator-logged-in', {posts: list, media: mediaList, title: 'Moderator Page'});//if user is logged in with approved email
 		}
 	}
