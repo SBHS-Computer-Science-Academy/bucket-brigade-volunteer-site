@@ -31,6 +31,13 @@ body {
 	padding: 15px;
 }
 
+.box-and-img
+{
+	overflow-y: auto;
+	height: 215px;
+	width: 565px;
+}
+
 .box
 {
 	overflow-y: auto;
@@ -111,7 +118,14 @@ div.grid
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.post img 
+.imgOnlyDiv
+{
+	width: 585px;
+	height: 325px;
+	background-image: url("/images/background.jpg");
+}
+
+.post img, .imgOnly
 {
 	display: block;
 	margin-left: auto;
@@ -119,6 +133,7 @@ div.grid
 	width: auto;
 	max-width: 585px;
 	height: auto;
+	min-height: 325px;
 	max-height: 325px;
 }
 
@@ -140,37 +155,37 @@ div.grid
 
 a 
 {
-  color: #00B7FF;
+	color: #00B7FF;
 }
 
 .contain {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  padding-top: 56.25%;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	padding-top: 56.25%;
 }
 
 .responsive-iframe 
 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .btn 
 {
-  background-color: #4CAF50;
-  border: black;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
+	  background-color: #4CAF50;
+	  border: black;
+	  color: white;
+	  padding: 10px 20px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 20px;
 }
 
 .sign-up-btn

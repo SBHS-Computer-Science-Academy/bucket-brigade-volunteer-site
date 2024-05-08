@@ -80,8 +80,7 @@ function executeQuery(query)
 			resolve(results);
 		});
 	});
-}  
- 
+}
 
 // Handle form submission
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
@@ -89,7 +88,8 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 	const { name, grade, school, anonymous, date, work, story } = req.body;
 	const query = `INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES ('${name}', '${grade}', '${school}', '${anonymous}', '${date}', '${work}', '${story}', 'not approved')`; 
 	var results = await executeQuery(query);
-	var postId = results["insertedId"];
+	//console.log(results);
+	var postId = results["insertId"];
 
 	media = req["files"] 
 
@@ -102,8 +102,8 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			const m_query = `INSERT INTO media (path, id) VALUES ('${filePath2}', '${postId}')`;
-			await executeQuery(m_query);	
-		}	
+			var results2 = await executeQuery(m_query);	
+		}
 	}
 	res.redirect('/success');
 });
@@ -234,7 +234,7 @@ router.get('/moderator-error', (req, res) => res.send("error logging in"));
 /* GET success page. */
 router.get('/success', function(req, res, next) 
 {	
-  res.render('success', { title: 'success', active_page: 'success' });
+  res.render('success', { title: 'Volunteer Experiences', active_page: 'experience' });
 });
 
 module.exports = router;
