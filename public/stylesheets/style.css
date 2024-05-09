@@ -137,7 +137,7 @@ div.grid
 	max-height: 325px;
 }
 
-.featuredPost img 
+.featuredPost img, .imgOnlyFeatured
 {
 	display: block;
 	margin-left: auto;
@@ -226,3 +226,19 @@ a:hover
 {
 	color: #73b326;
 }
+
+span
+{
+	color: #cc0001;
+}
+
+.form-control
+{
+	width: 200px;
+	border-color: #000000
+}
+
+.form-control select {
+	border-color: #000000
+}
+

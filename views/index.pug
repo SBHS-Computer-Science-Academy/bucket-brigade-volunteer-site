@@ -36,7 +36,7 @@ block content
 							span(class='space')
 							
 						div(class="card")
-							if imgCount > 0
+							if imgCount > 1
 								div(class="card-header")
 									div(id=carouselId class="carousel slide" data-bs-ride="carousel")
 
@@ -70,6 +70,24 @@ block content
 											span(class="carousel-control-next-icon")
 										
 										
+								div(class="card-body box")
+									p(class='red') #[strong #{post.work}]
+									p(style="font-size: 20px").
+										#{post.story}
+									p(class='space')= postCount++
+									
+								div(class='card-footer')
+									if post.anonymous == 'no'
+										h4 #{post.name}, Grade #{post.grade} at #{post.school}
+									else
+										h4 Anonymous
+							
+							else if imgCount == 1
+								div(class='card-header')
+									each img in media
+										if img.id == post.id
+											img(src=img.path alt='placeholder image' class='imgOnlyFeatured')
+								
 								div(class="card-body box")
 									p(class='red') #[strong #{post.work}]
 									p(style="font-size: 20px").
