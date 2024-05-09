@@ -81,8 +81,7 @@ function executeQuery(query)
 			resolve(results);
 		});
 	});
-}  
- 
+}
 
 // Handle form submission
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
@@ -90,6 +89,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 	const { name, grade, school, anonymous, date, work, story } = req.body;
 	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved')`; 
 	var results = await executeQuery(query);
+	
 	var postId = results["insertId"];
 	console.log(postId);
 	console.log(results);
@@ -105,9 +105,9 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			console.log(postId);
-			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
+			const m_query = `INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
 			await executeQuery(m_query);	
-		}	
+		}
 	}
 	res.redirect('/success');
 });
@@ -137,12 +137,10 @@ router.post('/approve-selected', async(req, res) =>
 		let query2 = sql`DELETE FROM media WHERE m_id='` + denied + `';`;
 		await executeQuery(query2);
 	}
-	
 	if(req.body.myCheckbox == null)
 	{
 		const deny_query = sql`UPDATE submissions SET story= NULL WHERE id=(${postid})`;
 		await executeQuery(deny_query);
-		
 	}
 	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
 });
@@ -245,7 +243,7 @@ router.get('/moderator-error', (req, res) => res.send("error logging in"));
 /* GET success page. */
 router.get('/success', function(req, res, next) 
 {	
-  res.render('success', { title: 'success', active_page: 'success' });
+  res.render('success', { title: 'Volunteer Experiences', active_page: 'experience' });
 });
 
 module.exports = router;
