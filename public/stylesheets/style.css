@@ -70,6 +70,8 @@ body {
 .btn-right 
 {
 	float: right;
+	text-align: right;
+	display: inline-block;
 }
 
 .input-textbox 

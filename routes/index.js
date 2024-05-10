@@ -174,8 +174,8 @@ router.post('/remove-moderator', async(req,res) =>
 /* GET home page. */
 router.get('/', async function(req, res, next) 
 {	
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
-	const query2 = sql`SELECT * FROM media`
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+	const query2 = sql`SELECT * FROM media`;
 	let postList = await executeQuery(query);
 	let mediaList = await executeQuery(query2);
 	res.render('index', { title: 'Home', active_page: 'home', posts: postList, media: mediaList});
@@ -190,9 +190,20 @@ router.get('/volunteer-hub', function(req, res, next)
 /* GET volunteer experiences page. */
 router.get('/volunteer-experiences', async function(req, res, next) 
 {
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
-	const query2 = sql`SELECT * FROM media`
-	let postList = await executeQuery(query);
+	let postList = "";
+	if("filter" in req["query"])
+	{
+		filter=req["query"]["filter"];
+		const query3 = sql`SELECT * FROM submissions WHERE status = 'approved' AND work=(${filter})`;
+		postList = await executeQuery(query3);
+	}
+	else
+	{
+		const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+		console.log(req);
+		postList = await executeQuery(query);
+	}
+	const query2 = sql`SELECT * FROM media`;
 	let mediaList = await executeQuery(query2);
 	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: postList, media: mediaList});
 });
@@ -216,7 +227,7 @@ router.get('/moderator-logged-in', async function(req, res, next)
 	if(req.isAuthenticated())
 	{
 		email = userProfile['_json']['email'];
-		const query = sql`SELECT * FROM modEmails WHERE email = ${email}`
+		const query = sql`SELECT * FROM modEmails WHERE email = ${email}`;
 		results = await executeQuery(query);
 		if(results.length == 0)
 		{
@@ -224,8 +235,8 @@ router.get('/moderator-logged-in', async function(req, res, next)
 		}
 		else
 		{
-			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`
-			const query2 = sql`SELECT * FROM media`
+			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`;
+			const query2 = sql`SELECT * FROM media`;
 			let list = await executeQuery(query);
 			let mediaList = await executeQuery(query2);
 			res.render('moderator-logged-in', {posts: list, media: mediaList, title: 'Moderator Page'});//if user is logged in with approved email
