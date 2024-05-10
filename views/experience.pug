@@ -12,7 +12,22 @@ block content
 		div(class='row')
 			div(class='col-xl-2')
 			div(class='col-xl')
-				a(href='/post-submission' class='btn btn-success btn-lg btn-right') #[strong Share Your Experience]
+				div(class="d-flex justify-content-between")
+					div(class="dropdown p-2 bd-highlight")
+						button(type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown") Filter
+						ul(class="dropdown-menu")
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=academy") Academy
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=humanitarian garden") Humanitarian Garden
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=yankee farm") Yankee Farm
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=community") Community
+							li
+								a(class="dropdown-divider" href="/volunteer-experiences") Clear Filter
+					div(class="p-2 bd-highlight")
+						a(href='/post-submission' class='btn btn-success btn-lg btn-right') #[strong Share Your Experience]
 			div(class='col-xl-2')
 		
 		br
