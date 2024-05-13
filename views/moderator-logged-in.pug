@@ -17,33 +17,35 @@ block content
 						each post in posts
 							- var isChecked = true
 							div(class="card")
-								div(class="card-header")
-									div.grid
-										#media
-											each img in media
-												if img.id == post.id
-													- var mID = img.m_id
-													- var path = img.path
-													img(src=path alt="placeholder image" id=mID style="width:50%" class="grid-item")
-											
-								div(class="card-body")
-									button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
-									- var Id= post.id
-									h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
-									p #{post.story}
-										div.btn-group
-										form(action="/approve-selected" method="POST")
+								form(action="/approve-selected" method="POST")
+									div(class="card-header")
+										div.grid
+											#media
+												each img in media
+													if img.id == post.id
+														- var mID = "m" + img.m_id
+														- var path = img.path
+														img(src=path alt="placeholder image" id=img.m_id style="width:50%" class="grid-item")
+														input(type="text", name="alt-text", placeholder="Alt text", id=mID)
+												
+									div(class="card-body")
+										button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
+										- var Id= post.id
+										h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
+										p #{post.story}
 											input(type="hidden" name="postid" value=Id)
 											div(class="form-check")
 													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
 													label(class="form-check-label") #[strong Include Text]
+												
+											p(class="space") space
 											
 											div(id='elems')
 												each img in media
 													if img.id == post.id
 														- var mID = img.m_id
 														input(type='hidden' id=mID name='denied' value=mID)
-											
+												
 											button(type="submit" class="btn btn-success") #[strong Approve Selected]
 											
 										form(action="/deny-all", method="POST")

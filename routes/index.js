@@ -105,7 +105,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			console.log(postId);
-			const m_query = `INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
+			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
 			await executeQuery(m_query);	
 		}
 	}
