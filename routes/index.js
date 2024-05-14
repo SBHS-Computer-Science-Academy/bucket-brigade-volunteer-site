@@ -105,7 +105,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			console.log(postId);
-			const m_query = `INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
+			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
 			await executeQuery(m_query);	
 		}
 	}
@@ -119,6 +119,19 @@ router.post('/approve-selected', async(req, res) =>
 	await executeQuery(query);
 	var check = req.body.myCheckbox;
 	var denied = req.body.denied;
+	var altText = req.body.alt_text;
+	console.log(altText);
+	
+	if(Array.isArray(altText))
+	{
+		for(let i = 0; i < altText.length; i+=2)
+		{
+			const mId = altText[i];
+			const altTextValue = altText[i + 1];
+			const altQuery = `UPDATE media SET altText='${altTextValue}' WHERE m_id='${mId}';`;
+			await executeQuery(altQuery);
+		}
+	}
 	
 	if (Array.isArray(denied))
 	{
