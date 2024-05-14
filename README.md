@@ -73,8 +73,6 @@ npm install sql-template-strings
 
 npm install express-validator
 
-npm install file-type
-
 ## UPDATING ENV FILE
 
 Update the .env file with the new session secret and new google oauth secret
