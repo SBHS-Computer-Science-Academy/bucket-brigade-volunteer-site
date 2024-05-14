@@ -88,10 +88,10 @@ block content
 												- var m_id = 'm' + img.m_id
 												if l == 0
 													div(class='carousel-item post active')
-														img(src=path id=m_id alt='placeholder image' class='d-block')
+														img(src=path id=m_id alt=img.altText class='d-block')
 												else if l > 0
 													div(class='carousel-item post')
-														img(src=path id=m_id alt='placeholder image' class='d-block')
+														img(src=path id=m_id alt=img.altText class='d-block')
 												
 									button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
 										span(class='carousel-control-prev-icon')
@@ -103,7 +103,7 @@ block content
 									if img.id == post.id
 										- var m_id = 'm' + img.m_id
 										div(class='imgOnlyDiv')
-											img(src=img.path id=m_id alt='placeholder image' class='imgOnly')
+											img(src=img.path id=m_id alt=img.altText class='imgOnly')
 							
 						div(class='col-xl outline')
 							div(class='card')

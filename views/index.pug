@@ -57,10 +57,10 @@ block content
 													- var path = img.path
 													if l == 0
 														div(class="carousel-item featuredPost active")
-															img(src=path alt="placeholder image" class="d-block")
+															img(src=path alt=img.altText class="d-block")
 													else if l > 0
 														div(class="carousel-item featuredPost")
-															img(src=path alt="placeholder image" class="d-block")
+															img(src=path alt=img.altText class="d-block")
 															
 											
 							  
@@ -86,7 +86,7 @@ block content
 								div(class='card-header')
 									each img in media
 										if img.id == post.id
-											img(src=img.path alt='placeholder image' class='imgOnlyFeatured')
+											img(src=img.path alt=img.altText class='imgOnlyFeatured')
 								
 								div(class="card-body box")
 									p(class='red') #[strong #{post.work}]
@@ -250,11 +250,11 @@ block content
 		  
 					div(class="carousel-inner")
 						div(class="carousel-item active")
-							img(src="/images/IMG_0316.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+							img(src="/images/IMG_0316.jpeg" alt="Group of student bucket brigade voluenteers posing and holding a pride flag." class="d-block" style="width:100%")
 						div(class="carousel-item")
-							img(src="/images/group.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+							img(src="/images/group.jpeg" alt="Group of student bucket brigade voluenteers." class="d-block" style="width:100%")
 						div(class="carousel-item")
-							img(src="/images/flags.jpeg" alt="placeholder image" class="d-block" style="width:100%")
+							img(src="/images/flags.jpeg" alt="Two student bucket brigade voluenteers holding small flags." class="d-block" style="width:100%")
 		  
 					button(class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev")
 						span(class="carousel-control-prev-icon")

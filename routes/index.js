@@ -119,6 +119,19 @@ router.post('/approve-selected', async(req, res) =>
 	await executeQuery(query);
 	var check = req.body.myCheckbox;
 	var denied = req.body.denied;
+	var altText = req.body.alt_text;
+	console.log(altText);
+	
+	if(Array.isArray(altText))
+	{
+		for(let i = 0; i < altText.length; i+=2)
+		{
+			const mId = altText[i];
+			const altTextValue = altText[i + 1];
+			const altQuery = `UPDATE media SET altText='${altTextValue}' WHERE m_id='${mId}';`;
+			await executeQuery(altQuery);
+		}
+	}
 	
 	if (Array.isArray(denied))
 	{

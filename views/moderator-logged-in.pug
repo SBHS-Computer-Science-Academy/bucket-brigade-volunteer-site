@@ -26,7 +26,8 @@ block content
 														- var mID = "m" + img.m_id
 														- var path = img.path
 														img(src=path alt="placeholder image" id=img.m_id style="width:50%" class="grid-item")
-														input(type="text", name="alt-text", placeholder="Alt text", id=mID)
+														input(type="hidden", name="alt_text", value=img.m_id)
+														input(type="text", name="alt_text", placeholder="Alt text", id=mID, required)
 												
 									div(class="card-body")
 										button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
@@ -48,9 +49,9 @@ block content
 												
 											button(type="submit" class="btn btn-success") #[strong Approve Selected]
 											
-										form(action="/deny-all", method="POST")
-											input(type="hidden" name="postid" value=Id)
-											button(type="submit" class="btn btn-danger") #[strong Deny All]
+								form(action="/deny-all", method="POST")
+									input(type="hidden" name="postid" value=Id)
+									button(type="submit" class="btn btn-danger") #[strong Deny All]
 													
 									
 							
