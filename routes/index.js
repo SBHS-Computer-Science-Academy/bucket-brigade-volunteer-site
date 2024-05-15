@@ -105,7 +105,7 @@ router.post('/submit_form', upload.array('media', 10), async(req, res) =>
 			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
 			// Insert data into MySQL database
 			console.log(postId);
-			const m_query = `INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
+			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
 			await executeQuery(m_query);	
 		}
 	}
@@ -119,6 +119,19 @@ router.post('/approve-selected', async(req, res) =>
 	await executeQuery(query);
 	var check = req.body.myCheckbox;
 	var denied = req.body.denied;
+	var altText = req.body.alt_text;
+	console.log(altText);
+	
+	if(Array.isArray(altText))
+	{
+		for(let i = 0; i < altText.length; i+=2)
+		{
+			const mId = altText[i];
+			const altTextValue = altText[i + 1];
+			const altQuery = `UPDATE media SET altText='${altTextValue}' WHERE m_id='${mId}';`;
+			await executeQuery(altQuery);
+		}
+	}
 	
 	if (Array.isArray(denied))
 	{
@@ -142,7 +155,7 @@ router.post('/approve-selected', async(req, res) =>
 		const deny_query = sql`UPDATE submissions SET story= NULL WHERE id=(${postid})`;
 		await executeQuery(deny_query);
 	}
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
 router.post('/deny-all', async(req, res) => 
@@ -152,7 +165,7 @@ router.post('/deny-all', async(req, res) =>
 	const query2 = sql`DELETE FROM submissions WHERE id=(${postid})`;
 	await executeQuery(query);
 	await executeQuery(query2);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
 router.post('/new-moderator', async(req, res) => 
@@ -160,15 +173,15 @@ router.post('/new-moderator', async(req, res) =>
 	email = req.body['modEmail'];
 	const query = sql`INSERT INTO modEmails (email) VALUES (${email})`;
 	await executeQuery(query);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after insertion
+	res.redirect('/moderator'); // Redirect to a success page after insertion
 });
-	
+
 router.post('/remove-moderator', async(req,res) =>
 {
 	email = req.body['modEmail'];
 	const query = sql`DELETE FROM modEmails WHERE email = ${email}`;
 	await executeQuery(query);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 	
 /* GET home page. */
@@ -200,7 +213,6 @@ router.get('/volunteer-experiences', async function(req, res, next)
 	else
 	{
 		const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
-		console.log(req);
 		postList = await executeQuery(query);
 	}
 	const query2 = sql`SELECT * FROM media`;
@@ -215,15 +227,9 @@ router.get('/post-submission', function(req, res, next)
 });
 
 /* GET moderator page. */
-router.get('/moderator', function(req, res, next) 
+router.get('/moderator', async function(req, res, next) 
 {
-	res.render('moderator', { title: 'Moderator Page' });
-});
-
-/* GET moderator logged in page. */
-router.get('/moderator-logged-in', async function(req, res, next) 
-{	
-	//console.log(userProfile);
+	//res.render('moderator', { title: 'Moderator Page' });
 	if(req.isAuthenticated())
 	{
 		email = userProfile['_json']['email'];
@@ -244,7 +250,7 @@ router.get('/moderator-logged-in', async function(req, res, next)
 	}
 	else
 	{
-			res.redirect('/moderator');//if user is not logged in and tries to access logged in mod site
+			res.render('moderator', { title: 'Moderator Page' });//if user is not logged in and tries to access logged in mod site
 	}
 });
 
@@ -282,5 +288,5 @@ router.get('/auth/google', passport.authenticate('google', { scope : ['profile',
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/moderator-error' }), function(req, res) 
 {
 	// Successful authentication, redirect success.
-	res.redirect('/moderator-logged-in');
+	res.redirect('/moderator');
 });
