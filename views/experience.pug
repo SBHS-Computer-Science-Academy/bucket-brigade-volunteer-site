@@ -17,13 +17,13 @@ block content
 						button(type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown") Filter
 						ul(class="dropdown-menu")
 							li
-								a(class="dropdown-item" href="/volunteer-experiences?filter=academy") Academy
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Academy") Academy
 							li
-								a(class="dropdown-item" href="/volunteer-experiences?filter=humanitarian garden") Humanitarian Garden
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Humanitarian Garden") Humanitarian Garden
 							li
-								a(class="dropdown-item" href="/volunteer-experiences?filter=yankee farm") Yankee Farm
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Yankee Farm") Yankee Farm
 							li
-								a(class="dropdown-item" href="/volunteer-experiences?filter=community") Community
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Community") Community
 							li
 								a(class="dropdown-divider" href="/volunteer-experiences") Clear Filter
 					div(class="p-2 bd-highlight")
@@ -69,34 +69,35 @@ block content
 					else
 						div(class='col-xl outline')
 							if imgCount > 1
-								div(id=carouselId class='carousel slide' data-bs-ride='carousel')
+								div.imgOnlyDiv
+									div(id=carouselId class='carousel slide' data-bs-ride='carousel')
 
-									div(class='carousel-indicators')
-										- var i = 0
-										while i < imgCount
-											- var j = '' + i++
-											if j == 0
-												button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
-											else if i > 0
-												button(type='button' data-bs-target=carId data-bs-slide-to=j)
-								
-									div(class='carousel-inner')
-										each img in media
-											if img.id == post.id
-												- var l = carItemCount++
-												- var path = img.path
-												- var m_id = 'm' + img.m_id
-												if l == 0
-													div(class='carousel-item post active')
-														img(src=path id=m_id alt=img.altText class='d-block')
-												else if l > 0
-													div(class='carousel-item post')
-														img(src=path id=m_id alt=img.altText class='d-block')
-												
-									button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
-										span(class='carousel-control-prev-icon')
-									button(class='carousel-control-next' type='button' data-bs-target=carId data-bs-slide='next')
-										span(class='carousel-control-next-icon')
+										div(class='carousel-indicators')
+											- var i = 0
+											while i < imgCount
+												- var j = '' + i++
+												if j == 0
+													button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
+												else if i > 0
+													button(type='button' data-bs-target=carId data-bs-slide-to=j)
+									
+										div(class='carousel-inner')
+											each img in media
+												if img.id == post.id
+													- var l = carItemCount++
+													- var path = img.path
+													- var m_id = 'm' + img.m_id
+													if l == 0
+														div(class='carousel-item post active')
+															img(src=path id=m_id alt=img.altText class='d-block')
+													else if l > 0
+														div(class='carousel-item post')
+															img(src=path id=m_id alt=img.altText class='d-block')
+													
+										button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
+											span(class='carousel-control-prev-icon')
+										button(class='carousel-control-next' type='button' data-bs-target=carId data-bs-slide='next')
+											span(class='carousel-control-next-icon')
 									
 							else if imgCount == 1
 								each img in media
