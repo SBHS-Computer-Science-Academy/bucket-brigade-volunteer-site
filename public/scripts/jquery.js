@@ -23,7 +23,6 @@ $(document).ready(function()
 	
 	$(".grid-item").click(function() 
 	{
-		//$(this).css("opacity", "0.75");
 		var mID = $(this).attr("id");
 		var ID = '#' + mID;
 		var txt = "<input type='hidden' id=" + mID + " name='denied' value=" + mID + ">";
@@ -43,5 +42,4 @@ $(document).ready(function()
 			}
 		}
 	});
-	
 });
