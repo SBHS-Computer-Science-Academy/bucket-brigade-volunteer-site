@@ -122,10 +122,9 @@ function executeQuery(query)
 			resolve(results);
 		});
 	});
+
 }  
 
- 
- 
 
 // Handle form submission
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
@@ -168,6 +167,19 @@ router.post('/approve-selected', async(req, res) =>
 	await executeQuery(query);
 	var check = req.body.myCheckbox;
 	var denied = req.body.denied;
+	var altText = req.body.alt_text;
+	console.log(altText);
+	
+	if(Array.isArray(altText))
+	{
+		for(let i = 0; i < altText.length; i+=2)
+		{
+			const mId = altText[i];
+			const altTextValue = altText[i + 1];
+			const altQuery = `UPDATE media SET altText='${altTextValue}' WHERE m_id='${mId}';`;
+			await executeQuery(altQuery);
+		}
+	}
 	
 	if (Array.isArray(denied))
 	{
@@ -186,14 +198,12 @@ router.post('/approve-selected', async(req, res) =>
 		let query2 = sql`DELETE FROM media WHERE m_id='` + denied + `';`;
 		await executeQuery(query2);
 	}
-	
 	if(req.body.myCheckbox == null)
 	{
 		const deny_query = sql`UPDATE submissions SET story= NULL WHERE id=(${postid})`;
 		await executeQuery(deny_query);
-		
 	}
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
 router.post('/deny-all', async(req, res) => 
@@ -203,7 +213,7 @@ router.post('/deny-all', async(req, res) =>
 	const query2 = sql`DELETE FROM submissions WHERE id=(${postid})`;
 	await executeQuery(query);
 	await executeQuery(query2);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
 router.post('/new-moderator', async(req, res) => 
@@ -211,22 +221,22 @@ router.post('/new-moderator', async(req, res) =>
 	email = req.body['modEmail'];
 	const query = sql`INSERT INTO modEmails (email) VALUES (${email})`;
 	await executeQuery(query);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after insertion
+	res.redirect('/moderator'); // Redirect to a success page after insertion
 });
-	
+
 router.post('/remove-moderator', async(req,res) =>
 {
 	email = req.body['modEmail'];
 	const query = sql`DELETE FROM modEmails WHERE email = ${email}`;
 	await executeQuery(query);
-	res.redirect('/moderator-logged-in'); // Redirect to a success page after removal
+	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 	
 /* GET home page. */
 router.get('/', async function(req, res, next) 
 {	
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
-	const query2 = sql`SELECT * FROM media`
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+	const query2 = sql`SELECT * FROM media`;
 	let postList = await executeQuery(query);
 	let mediaList = await executeQuery(query2);
 	res.render('index', { title: 'Home', active_page: 'home', posts: postList, media: mediaList});
@@ -241,9 +251,19 @@ router.get('/volunteer-hub', function(req, res, next)
 /* GET volunteer experiences page. */
 router.get('/volunteer-experiences', async function(req, res, next) 
 {
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`
-	const query2 = sql`SELECT * FROM media`
-	let postList = await executeQuery(query);
+	let postList = "";
+	if("filter" in req["query"])
+	{
+		filter=req["query"]["filter"];
+		const query3 = sql`SELECT * FROM submissions WHERE status = 'approved' AND work=(${filter})`;
+		postList = await executeQuery(query3);
+	}
+	else
+	{
+		const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+		postList = await executeQuery(query);
+	}
+	const query2 = sql`SELECT * FROM media`;
 	let mediaList = await executeQuery(query2);
 	res.render('experience', { title: 'Volunteer Experience', active_page: 'experience' , posts: postList, media: mediaList});
 });
@@ -255,19 +275,13 @@ router.get('/post-submission', function(req, res, next)
 });
 
 /* GET moderator page. */
-router.get('/moderator', function(req, res, next) 
+router.get('/moderator', async function(req, res, next) 
 {
-	res.render('moderator', { title: 'Moderator Page' });
-});
-
-/* GET moderator logged in page. */
-router.get('/moderator-logged-in', async function(req, res, next) 
-{	
-	//console.log(userProfile);
+	//res.render('moderator', { title: 'Moderator Page' });
 	if(req.isAuthenticated())
 	{
 		email = userProfile['_json']['email'];
-		const query = sql`SELECT * FROM modEmails WHERE email = ${email}`
+		const query = sql`SELECT * FROM modEmails WHERE email = ${email}`;
 		results = await executeQuery(query);
 		if(results.length == 0)
 		{
@@ -275,8 +289,8 @@ router.get('/moderator-logged-in', async function(req, res, next)
 		}
 		else
 		{
-			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`
-			const query2 = sql`SELECT * FROM media`
+			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`;
+			const query2 = sql`SELECT * FROM media`;
 			let list = await executeQuery(query);
 			let mediaList = await executeQuery(query2);
 			res.render('moderator-logged-in', {posts: list, media: mediaList, title: 'Moderator Page'});//if user is logged in with approved email
@@ -284,7 +298,7 @@ router.get('/moderator-logged-in', async function(req, res, next)
 	}
 	else
 	{
-			res.redirect('/moderator');//if user is not logged in and tries to access logged in mod site
+			res.render('moderator', { title: 'Moderator Page' });//if user is not logged in and tries to access logged in mod site
 	}
 });
 
@@ -294,7 +308,7 @@ router.get('/moderator-error', (req, res) => res.send("error logging in"));
 /* GET success page. */
 router.get('/success', function(req, res, next) 
 {	
-  res.render('success', { title: 'success', active_page: 'success' });
+  res.render('success', { title: 'Volunteer Experiences', active_page: 'experience' });
 });
 
 module.exports = router;
@@ -322,5 +336,5 @@ router.get('/auth/google', passport.authenticate('google', { scope : ['profile',
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/moderator-error' }), function(req, res) 
 {
 	// Successful authentication, redirect success.
-	res.redirect('/moderator-logged-in');
+	res.redirect('/moderator');
 });

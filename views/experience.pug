@@ -2,10 +2,32 @@ extends layout
 
 block content
 	div.body
+		
+		script.
+			var nWidth = 0;
+			var nHeight = 0;
+			var m_id = "";
+			var image;
+		
 		div(class='row')
 			div(class='col-xl-2')
 			div(class='col-xl')
-				a(href='/post-submission' class='btn btn-success btn-lg btn-right') #[strong Share Your Experience]
+				div(class="d-flex justify-content-between")
+					div(class="dropdown p-2 bd-highlight")
+						button(type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown") #[strong Filter]
+						ul(class="dropdown-menu")
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Academy") Academy
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Humanitarian Garden") Humanitarian Garden
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Yankee Farm") Yankee Farm
+							li
+								a(class="dropdown-item" href="/volunteer-experiences?filter=Community") Community
+							li
+								a(class="dropdown-divider" href="/volunteer-experiences") Clear Filter
+					div(class="p-2 bd-highlight")
+						a(href='/post-submission' class='btn btn-success btn-lg btn-right') #[strong Share Your Experience]
 			div(class='col-xl-2')
 		
 		br
@@ -43,42 +65,52 @@ block content
 										h4 #{post.name}, Grade #{post.grade} at #{post.school}
 									else
 										h4 Anonymous
-										
+
 					else
 						div(class='col-xl outline')
-							div(id=carouselId class='carousel slide' data-bs-ride='carousel')
+							if imgCount > 1
+								div.imgOnlyDiv
+									div(id=carouselId class='carousel slide' data-bs-ride='carousel')
 
-								div(class='carousel-indicators')
-									- var i = 0
-									while i < imgCount
-										- var j = '' + i++
-										if j == 0
-											button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
-										else if i > 0
-											button(type='button' data-bs-target=carId data-bs-slide-to=j)
-							
-								div(class='carousel-inner')
-									each img in media
-										if img.id == post.id
-											- var l = carItemCount++
-											- var path = img.path
-											if l == 0
-												div(class='carousel-item post active')
-													img(src=path alt='placeholder image' class='d-block')
-											else if l > 0
-												div(class='carousel-item post')
-													img(src=path alt='placeholder image' class='d-block')
-													
-								button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
-									span(class='carousel-control-prev-icon')
-								button(class='carousel-control-next' type='button' data-bs-target=carId data-bs-slide='next')
-									span(class='carousel-control-next-icon')
+										div(class='carousel-indicators')
+											- var i = 0
+											while i < imgCount
+												- var j = '' + i++
+												if j == 0
+													button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
+												else if i > 0
+													button(type='button' data-bs-target=carId data-bs-slide-to=j)
 									
+										div(class='carousel-inner')
+											each img in media
+												if img.id == post.id
+													- var l = carItemCount++
+													- var path = img.path
+													- var m_id = 'm' + img.m_id
+													if l == 0
+														div(class='carousel-item post active')
+															img(src=path id=m_id alt=img.altText class='d-block')
+													else if l > 0
+														div(class='carousel-item post')
+															img(src=path id=m_id alt=img.altText class='d-block')
+													
+										button(class='carousel-control-prev' type='button' data-bs-target=carId data-bs-slide='prev')
+											span(class='carousel-control-prev-icon')
+										button(class='carousel-control-next' type='button' data-bs-target=carId data-bs-slide='next')
+											span(class='carousel-control-next-icon')
+									
+							else if imgCount == 1
+								each img in media
+									if img.id == post.id
+										- var m_id = 'm' + img.m_id
+										div(class='imgOnlyDiv')
+											img(src=img.path id=m_id alt=img.altText class='imgOnly')
+							
 						div(class='col-xl outline')
 							div(class='card')
 								div(class='card-header')
 									h3(class='red') #[strong #{post.work}]
-								div(class='card-body box')
+								div(class='card-body box-and-img')
 									p(style="opacity: 75%") #{post.date}
 									p #{post.story}
 								div(class='card-footer')

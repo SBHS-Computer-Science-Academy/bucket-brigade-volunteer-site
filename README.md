@@ -71,8 +71,6 @@ npm install jquery
 
 npm install sql-template-strings
 
-npm install express-validator
-
 ## UPDATING ENV FILE
 
 Update the .env file with the new session secret and new google oauth secret
