@@ -11,6 +11,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "express-validator": "^7.0.1",
+    "file-type": "^19.0.0",
     "http-errors": "~1.6.3",
     "jquery": "^3.7.1",
     "jsdom": "^24.0.0",
@@ -20,6 +22,7 @@
     "mysql": "^2.18.1",
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
+    "path": "^0.12.7",
     "pug": "^3.0.2",
     "sql-template-strings": "^2.2.2",
     "sql-template-tag": "^5.2.1"

@@ -30,7 +30,16 @@ block content
 			p
 				label(for="school") What school do you go to?:
 			p
-				input(id="school", type="text", name="school", class="form-control",placeholder="") 
+				select(id="school", name="school", class="form-control", required)
+					option(value="") 
+					option(value="santa barbara high school") Santa Barbara High School
+					option(value="san marcos high school") San Marcos High School
+					option(value="dos pueblos high school") Dos Pueblos High School
+					option(value="laguna blanca school") Laguna Blanca School
+					option(value="alta vista high school") Alta Vista High School
+					option(value="bishop diego high school") Bishop Diego High School
+					option(value="other") Other
+		
 			p
 				label(for="anonymous") Would you like this submission to be anonymous once it's posted?
 				span(style='color: red;') *
@@ -59,11 +68,11 @@ block content
 			p
 				textarea(id="myTextArea" name="story" class="form-control")
 			p
-				label(for="media") Upload photos/videos below (accepts png, jpg, jpeg, GIF, MOV, heif, MP4, WEBM):
+				label(for="media") Upload photos/videos below (accepts png, jpg, jpeg, GIF, MOV, MP4, WEBM):
 			p
 				input(id="media", type="file", name="media", accept="image/*,video/*", multiple)
 				div(class="invalid-feedback")
-					please submit a valid file type
+					Please submit a valid file type
 			input(type="submit")
 			
 	script(src='/scripts/submission.js')
@@ -85,4 +94,7 @@ block content
 						form.classList.add('was-validated')
 					}, false)
 				})
+
+			input(type="submit")
+			
 
