@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest:'uploads/'});
@@ -16,6 +17,29 @@ var connection = mysql.createConnection(
 });
 
 module.exports = router;
+
+
+//server-side form validation
+function checkImageType(req)
+{
+	const acceptedTypes = ['.jpeg', '.jpg', '.png', '.gif', '.mov', '.mp4', '.webm']; // need to test mov, and webm might delete heif
+	const acceptedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', ' image/heif-sequence', 'video/mov', 'video/quicktime', 'video/mp4', 'video/webm']; // need to test mov, and webm might delete heif
+	console.log("is running");
+	
+	
+	for(let x = 0; x < req["files"].length; x++)
+	{
+		console.log(req["files"][x]);
+		const fileExtension = path.extname(req["files"][x]["originalname"]).toLowerCase();
+		const fileMimetype = req["files"][x].mimetype;
+		
+		if (!(acceptedMimeTypes.includes(fileMimetype) && acceptedTypes.includes(fileExtension))) 
+		{
+			return false;
+		}
+	}
+	return true; 
+};
 
 const session = require('express-session');
 router.use(session({
@@ -45,9 +69,26 @@ passport.use(new GoogleStrategy({
 
 function getMedia() 
 {
+	const query = sql`SELECT * FROM media`;
 	return new Promise(function(resolve, reject) 
 	{
-		connection.query('SELECT * FROM `media`', function (error, results, fields)
+		connection.query(query, function (error, results, fields)
+		{
+			if (error) {
+				return reject(error);
+			}
+			
+			resolve(results);
+		});
+	});
+}
+
+function getPostMedia() 
+{
+	const query = sql`SELECT * FROM media WHERE id = ${postId}`;
+	return new Promise(function(resolve, reject) 
+	{
+		connection.query(query, function (error, results, fields)
 		{
 			if (error) {
 				return reject(error);
@@ -81,35 +122,42 @@ function executeQuery(query)
 			resolve(results);
 		});
 	});
-}
+
+}  
+
 
 // Handle form submission
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
 {
-	const { name, grade, school, anonymous, date, work, story } = req.body;
-	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved')`; 
-	var results = await executeQuery(query);
-	
-	var postId = results["insertId"];
-	console.log(postId);
-	console.log(results);
-	
-	media = req["files"] 
-
-	if (media != "")
+	if (!checkImageType(req)) 
 	{
-		for(let x = 0; x < media.length; x++)
-		{
-			let filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
-			fs.renameSync(media[x]["path"], filePath);
-			let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
-			// Insert data into MySQL database
-			console.log(postId);
-			const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
-			await executeQuery(m_query);	
-		}
+		return res.status(400).json({  message: 'Please upload a valid image file'});
 	}
-	res.redirect('/success');
+	else
+	{
+		const { name, grade, school, anonymous, date, work, story } = req.body;
+		const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved')`; 
+		var results = await executeQuery(query);
+		var postId = results["insertId"];
+		
+		
+		media = req["files"] 
+
+		if (media != "")
+		{
+			for(let x = 0; x < media.length; x++)
+			{
+				let filePath = './public/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
+				fs.renameSync(media[x]["path"], filePath);
+				let filePath2 = '/images/' + media[x]["filename"] + media[x]["originalname"].substring(media[x]["originalname"].lastIndexOf("."));
+				// Insert data into MySQL database
+				//console.log(postId);
+				const m_query = sql`INSERT INTO media (path, id) VALUES (${filePath2}, ${postId})`;
+				await executeQuery(m_query);	
+			}	
+		}
+		res.redirect('/success');
+	}
 });
 
 router.post('/approve-selected', async(req, res) => 
