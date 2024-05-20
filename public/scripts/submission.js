@@ -6,7 +6,7 @@ function fileValidation()
 	var filePath = fileInput.value;
 
 	// Allowing file type
-	var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mov|\.heif|\.mp4|\.webm)$/i;
+	var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mov|\.mp4|\.webm)$/i;
 	if (filePath!="" && !allowedExtensions.exec(filePath)) 
 	{
 	alert('Invalid file type');

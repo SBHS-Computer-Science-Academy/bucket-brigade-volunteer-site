@@ -1,74 +1,305 @@
 extends layout
 
 block content
-	form(action="/logout" method="POST")
-		button(type="submit" class="btn btn-danger btn-lg") Logout
-	div.body
+	div.body2
+	
+		ul(class="nav nav-tabs")
+			li(class="nav-item")
+				a(class="nav-link active" data-bs-toggle="tab" href="#approve" style="color: #cc0001") Approve Posts
+			li(class="nav-item")
+				a(class="nav-link" data-bs-toggle="tab" href="#monitor" style="color: #cc0001") Monitor Posts
+			li(class="nav-item")
+				a(class="nav-link" data-bs-toggle="tab" href="#mod" style="color: #cc0001") Moderators
+			
+		br
 		div(class="row")
-			div(class="col-sm-8")
-				div(class="row")
-					- var postCount = 0
-					each post in posts
-						if post.status == 'not approved'
-						p(class='space')= postCount++
+			div(class="col-xl")
+				p(class="space") space	
+		
+		form(action="/logout" method="POST")
+			button(type="submit" class="btn btn-danger btn-lg") Logout
+			
+			
+		div(class="tab-content")
+			div(class="tab-pane container active" id="approve")
 				
-					h3(style="text-align:center; padding:20px") #[strong New Posts: ##{postCount}]
-					#posts 
+				div(class="row")
+					div.col-xl-1
+						- var postCount = 0
 						each post in posts
-							- var isChecked = true
-							div(class="card")
-								form(action="/approve-selected" method="POST")
-									div(class="card-header")
-										div.grid
-											#media
-												each img in media
-													if img.id == post.id
-														- var mID = "m" + img.m_id
-														- var path = img.path
-														img(src=path alt="placeholder image" id=img.m_id style="width:50%" class="grid-item")
-														input(type="hidden", name="alt_text", value=img.m_id)
-														input(type="text", name="alt_text", placeholder="Alt text", id=mID, required)
-												
-									div(class="card-body")
-										button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
-										- var Id= post.id
-										h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
-										p #{post.story}
-											input(type="hidden" name="postid" value=Id)
-											div(class="form-check")
-													input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
-													label(class="form-check-label") #[strong Include Text]
-												
-											p(class="space") space
-											
-											div(id='elems')
-												each img in media
-													if img.id == post.id
-														- var mID = img.m_id
-														input(type='hidden' id=mID name='denied' value=mID)
-												
-											button(type="submit" class="btn btn-success") #[strong Approve Selected]
-											
-								form(action="/deny-all", method="POST")
-									input(type="hidden" name="postid" value=Id)
-									button(type="submit" class="btn btn-danger") #[strong Deny All]
-													
-									
-							
-			div(class="col-sm-1")
-				div(class="row")
-					div(class="col-sm")
-						p(class="space") space
-				
-			div(class="col-sm-3")
-				h3.space space
-				div(class="d-grid")
-				form(action="/remove-moderator", method="POST")
-					input(type="text", name="modEmail", placeholder="Moderator email")
-					button(type="submit" class="btn btn-danger") #[strong Remove Moderator]
+							if post.status == 'not approved'
+								p(class='space')= postCount++
 					
-				h3.space space
-				div(class="d-grid")
-				form(action="/new-moderator", method="POST")
-					input(type="text", name="modEmail", placeholder="Moderator email")
-					button(type="submit" class="btn btn-success btn-block") #[strong Add New Moderator]
+					div.col-xl
+						h3(style="text-align:center; padding:20px") #[strong New Posts: ##{postCount}]
+						each post in posts
+							if post.status == 'not approved'
+								- var isChecked = true
+								div(class="card")
+									form(action="/approve-selected" method="POST")
+										div(class="card-header")
+											div.grid
+												#media
+													each img in media
+														if img.id == post.id
+															- var mID = "m" + img.m_id
+															- var path = img.path
+															img(src=path alt="placeholder image" id=img.m_id style="width:50%" class="grid-item")
+															input(type="hidden", name="alt_text", value=img.m_id)
+															input(type="text", name="alt_text", placeholder="Alt text", id=mID, required)
+													
+										div(class="card-body")
+											button(type="button" class="btn btn-danger btn-sm select-img") #[strong Select Images]
+											- var Id= post.id
+											h3 #[strong #{post.name}, #{post.grade}th grade, #{post.school}, anonymous #{post.anonymous}, worked on #{post.date}, worked at #{post.work}.]  
+											p #{post.story}
+												input(type="hidden" name="postid" value=Id)
+												div(class="form-check")
+														input(type="checkbox" name="myCheckbox" class="form-check-label" id="checkbox")
+														label(class="form-check-label") #[strong Include Text]
+													
+												p(class="space") space
+												
+												div(id='elems')
+													each img in media
+														if img.id == post.id
+															- var mID = img.m_id
+															input(type='hidden' id=mID name='denied' value=mID)
+													
+												button(type="submit" class="btn btn-success") #[strong Approve Selected]
+												
+									form(action="/deny-all", method="POST")
+										input(type="hidden" name="postid" value=Id)
+										button(type="submit" class="btn btn-danger") #[strong Deny All]
+					
+					div.col-xl-1
+					
+							br
+							div(class="row")
+								div(class="col-xl")
+									p(class="space") space	
+							
+							
+							
+			div(class="tab-pane container" id="monitor")
+				
+				div(class='row')
+					div.col-xl-6
+						h3(class="outline" style="text-align: center") #[strong Posts]
+						//post template
+						- var ID = 0
+						each post in posts
+							if post.isPinned == 'no'
+								- var carouselId = 'n' + ID
+								- var carId = '#' + carouselId
+								- var carItemCount = 0
+								
+								- var imgCount = 0
+									each img in media
+										if img.id == post.id
+											p(class='space')= imgCount++
+
+										
+									if imgCount == 0
+										div(class='card')
+											div(class='card-header')
+												h3(class='red') #[strong #{post.work}] 
+											div(class='card-body box')
+												p(style="opacity: 75%") #{post.date}
+												p #{post.story}
+											div(class='card-footer')
+												if post.anonymous == 'no'
+													h4 #{post.name}, Grade #{post.grade} at #{post.school}
+												else
+													h4 Anonymous
+												form(action="/new-pin", method="POST")
+													input(type="hidden" name="postid" value=post.id)
+													button(type="submit" class="btn btn-danger") #[strong Pin Post]
+
+									else
+										div(class='card')
+											div(class='card-header')
+												if imgCount > 1
+													div.imgOnlyDivFeatured
+														div(id=carouselId class="carousel slide" data-bs-ride="carousel")
+
+															div(class="carousel-indicators")
+																- var i = 0
+																each img in media
+																	if img.id == post.id
+																		- var j = '' + i++
+																		if j == 0
+																			button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
+																		else if i > 0
+																			button(type='button' data-bs-target=carId data-bs-slide-to=j)
+														
+															div(class="carousel-inner")
+																each img in media
+																	if img.id == post.id
+																		- var l = carItemCount++
+																		- var path = img.path
+																		if l == 0
+																			div(class="carousel-item featuredPost active")
+																				img(src=path alt=img.altText class="d-block")
+																		else if l > 0
+																			div(class="carousel-item featuredPost")
+																				img(src=path alt=img.altText class="d-block")
+																				
+																
+												  
+															button(class="carousel-control-prev" type="button" data-bs-target=carId data-bs-slide="prev")
+																span(class="carousel-control-prev-icon")
+															button(class="carousel-control-next" type="button" data-bs-target=carId data-bs-slide="next")
+																span(class="carousel-control-next-icon")
+															
+												else if imgCount == 1
+													each img in media
+														if img.id == post.id
+															each img in media
+																if img.id == post.id
+																	img(src=img.path alt=img.altText class='imgOnlyFeatured')
+																	
+											div(class='card-body box-and-img')
+												h3(class='red') #[strong #{post.work}]
+												p(style="opacity: 75%") #{post.date}
+												p #{post.story}
+											div(class='card-footer')
+												if post.anonymous == 'no'
+													h4 #{post.name}, Grade #{post.grade} at #{post.school}
+												else
+													h4 Anonymous
+												form(action="/new-pin", method="POST")
+													input(type="hidden" name="postid" value=post.id)
+													button(type="submit" class="btn btn-danger") #[strong Pin Post]
+										
+										
+										
+									p(class='space')= ID++
+			
+					div.col-xl-6
+						h3(class="outline" style="text-align: center") #[strong Pinned Posts]
+						each post in posts
+							if post.isPinned == 'yes'
+								- var carouselId = 'n' + ID
+								- var carId = '#' + carouselId
+								- var carItemCount = 0
+								
+								- var imgCount = 0
+									each img in media
+										if img.id == post.id
+											p(class='space')= imgCount++
+
+										
+									if imgCount == 0
+										div(class='card')
+											div(class='card-header')
+												h3(class='red') #[strong #{post.work}] 
+											div(class='card-body box')
+												p(style="opacity: 75%") #{post.date}
+												p #{post.story}
+											div(class='card-footer')
+												if post.anonymous == 'no'
+													h4 #{post.name}, Grade #{post.grade} at #{post.school}
+												else
+													h4 Anonymous
+												form(action="/remove-pin", method="POST")
+													input(type="hidden" name="postid" value=post.id)
+													button(type="submit" class="btn btn-danger") #[strong Unpin Post]
+
+									else
+										div(class='card')
+											div(class='card-header')
+												if imgCount > 1
+													div.imgOnlyDivFeatured
+														div(id=carouselId class="carousel slide" data-bs-ride="carousel")
+
+															div(class="carousel-indicators")
+																- var i = 0
+																each img in media
+																	if img.id == post.id
+																		- var j = '' + i++
+																		if j == 0
+																			button(type='button' data-bs-target=carId data-bs-slide-to=j class='active')
+																		else if i > 0
+																			button(type='button' data-bs-target=carId data-bs-slide-to=j)
+														
+															div(class="carousel-inner")
+																each img in media
+																	if img.id == post.id
+																		- var l = carItemCount++
+																		- var path = img.path
+																		if l == 0
+																			div(class="carousel-item featuredPost active")
+																				img(src=path alt=img.altText class="d-block")
+																		else if l > 0
+																			div(class="carousel-item featuredPost")
+																				img(src=path alt=img.altText class="d-block")
+																				
+																
+												  
+															button(class="carousel-control-prev" type="button" data-bs-target=carId data-bs-slide="prev")
+																span(class="carousel-control-prev-icon")
+															button(class="carousel-control-next" type="button" data-bs-target=carId data-bs-slide="next")
+																span(class="carousel-control-next-icon")
+															
+												else if imgCount == 1
+													each img in media
+														if img.id == post.id
+															each img in media
+																if img.id == post.id
+																	img(src=img.path alt=img.altText class='imgOnlyFeatured')
+																	
+											div(class='card-body box-and-img')
+												h3(class='red') #[strong #{post.work}]
+												p(style="opacity: 75%") #{post.date}
+												p #{post.story}
+											div(class='card-footer')
+												if post.anonymous == 'no'
+													h4 #{post.name}, Grade #{post.grade} at #{post.school}
+												else
+													h4 Anonymous
+												form(action="/remove-pin", method="POST")
+													input(type="hidden" name="postid" value=post.id)
+													button(type="submit" class="btn btn-danger") #[strong Unpin Post]
+										
+										
+										
+									p(class='space')= ID++
+			
+			
+			div(class="tab-pane container" id="mod")
+				div.row
+					div.col-xl-4
+					
+					div.col-xl-4
+						h3 #[strong Remove Existing Moderator]
+						div(class="d-grid")
+						form(action="/remove-moderator", method="POST")
+							input(type="text", name="modEmail", placeholder="Moderator email")
+							button(type="submit" class="btn btn-danger btn-sm") #[strong Remove]
+						
+						div(class="row")
+							div(class="col-xl")
+								p(class="space") space	
+						
+						h3.space space
+						h3 #[strong Add New Moderator]
+						div(class="d-grid")
+						form(action="/new-moderator", method="POST")
+							input(type="text", name="modEmail", placeholder="Moderator email")
+							button(type="submit" class="btn btn-success btn-sm") #[strong Add]
+					
+					div.col-xl-4
+					
+	div(class="modal" id="Warning")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						h2(class="modal-title") #[strong Attention!]
+						button(type="button" class="btn-close" data-bs-dismiss="modal")
+		
+					div(class="modal-body")
+						p(style="font-size:25px") You are exceeding the featured post count.
+						p If you want to pin this post, you must unpin a pinned post first before pinning another one.
+					div(class="modal-footer")
+						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close pop-up.

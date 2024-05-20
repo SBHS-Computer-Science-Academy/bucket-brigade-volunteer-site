@@ -19,7 +19,7 @@ block content
 			
 			
 			each post in posts
-				if postCount < 3
+				if post.isPinned == 'yes'
 					- var imgCount = 0
 					- var carouselId = 'n' + post.id
 					- var carId = '#' + carouselId
@@ -181,8 +181,31 @@ block content
 			div(class="col-xl")
 			div(class="col-xl")
 				div(class="d-grid")
-					a(type="button" class="btn btn-success btn-block sign-up-btn" href="/volunteer-hub") #[strong SIGN UP]
+					a(type="button" class="btn btn-success btn-block sign-up-btn" data-bs-toggle="modal" data-bs-target="#myModal") #[strong SIGN UP]
 			div(class="col-xl")
+			
+			div(class="col-xl-2")
+			
+		
+		br
+		div(class="row")
+			div(class="col-xl")
+				p(class="space") space
+				
+		// RSS Feed	
+		div(class="row")
+			div(class="col-xl-2")
+			
+			div(class="col-xl")
+				div(class="embedsocial-hashtag" data-ref="4f1a283580da5d3792bd339b6a585a84edda6071")
+					a(class="feed-powered-by-es feed-powered-by-es-feed-img" href="https://embedsocial.com/social-media-aggregator/" target="_blank" title="Instagram widget") 
+						//img(src="https://embedsocial.com/cdn/images/embedsocial-icon.png" alt="EmbedSocial") Instagram widget 
+
+				script.
+					(function(d, s, id){var js; if (d.getElementById(id)) {return;} js = d.createElement(s); 
+					js.id = id; 
+					js.src = "https://embedsocial.com/cdn/ht.js"; 
+					d.getElementsByTagName("head")[0].appendChild(js);}(document, "script", "EmbedSocialHashtagScript"));
 			
 			div(class="col-xl-2")
 			
