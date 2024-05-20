@@ -82,7 +82,10 @@ block content
 							
 							
 			div(class="tab-pane container" id="monitor")
-				
+				-var pinPostCount = 0
+				each post in posts
+					if post.isPinned == "yes"
+						p(class='space')= pinPostCount++
 				div(class='row')
 					div.col-xl-6
 						h3(class="outline" style="text-align: center") #[strong Posts]
@@ -112,9 +115,12 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/new-pin", method="POST")
-													input(type="hidden" name="postid" value=post.id)
-													button(type="submit" class="btn btn-danger") #[strong Pin Post]
+												if pinPostCount < 3
+													form(action="/new-pin", method="POST")
+														input(type="hidden" name="postid" value=post.id)
+														button(type="submit" class="btn btn-danger") #[strong Pin Post]
+												else 
+													a(type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#warning") #[strong Pin Post]
 
 									else
 										div(class='card')
@@ -168,9 +174,12 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/new-pin", method="POST")
-													input(type="hidden" name="postid" value=post.id)
-													button(type="submit" class="btn btn-danger") #[strong Pin Post]
+												if pinPostCount < 3
+													form(action="/new-pin", method="POST")
+														input(type="hidden" name="postid" value=post.id)
+														button(type="submit" class="btn btn-danger") #[strong Pin Post]
+												else
+													a(type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#warning") #[strong Pin Post]
 										
 										
 										
@@ -291,7 +300,7 @@ block content
 					
 					div.col-xl-4
 					
-	div(class="modal" id="Warning")
+	div(class="modal" id="warning")
 			div(class="modal-dialog")
 				div(class="modal-content")
 					div(class="modal-header")
@@ -301,5 +310,3 @@ block content
 					div(class="modal-body")
 						p(style="font-size:25px") You are exceeding the featured post count.
 						p If you want to pin this post, you must unpin a pinned post first before pinning another one.
-					div(class="modal-footer")
-						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close pop-up.
