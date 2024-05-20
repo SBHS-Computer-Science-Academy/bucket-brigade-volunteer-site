@@ -4,7 +4,11 @@
 		padding: 25px;
 		font-size: 20px;
 	}
-		.box-and-img
+	div.body2
+	{
+		font-size: 20px;
+	}
+	.box-and-img
 	{
 		overflow-y: auto;
 		height: 215px;
@@ -59,6 +63,10 @@
 	div.body 
 	{
 		padding: 25px;
+		font-size: 22px;
+	}
+	div.body2
+	{
 		font-size: 22px;
 	}
 		.box-and-img
@@ -117,6 +125,10 @@
 	div.body 
 	{
 		padding: 50px;
+		font-size: 23px;
+	}
+	div.body2 
+	{
 		font-size: 23px;
 	}
 	.box-and-img
@@ -188,6 +200,7 @@ body {
 {
 	color: #FFFFFF;
 	font-size: 1px;
+	display: inline;
 }
 
 .right 

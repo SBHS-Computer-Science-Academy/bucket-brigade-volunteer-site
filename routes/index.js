@@ -129,6 +129,15 @@ function executeQuery(query)
 // Handle form submission
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
 {
+	const { name, grade, school, anonymous, date, work, story } = req.body;
+	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status, isPinned) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved', 'no')`; 
+	var results = await executeQuery(query);
+	
+	var postId = results["insertId"];
+	
+	media = req["files"] 
+
+	if (media != "")
 	if (!checkImageType(req)) 
 	{
 		return res.status(400).json({  message: 'Please upload a valid image file'});
@@ -216,6 +225,22 @@ router.post('/deny-all', async(req, res) =>
 	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
+router.post('/new-pin', async(req, res) => 
+{
+	postid = req.body['postid'];
+	const query = sql`UPDATE submissions SET isPinned= 'yes' WHERE id=(${postid})`;
+	await executeQuery(query);
+	res.redirect('/moderator'); // Redirect to a success page after insertion
+});
+
+router.post('/remove-pin', async(req,res) =>
+{
+	postid = req.body['postid'];
+	const query = sql`UPDATE submissions SET isPinned= 'no' WHERE id=(${postid})`;
+	await executeQuery(query);
+	res.redirect('/moderator'); // Redirect to a success page after insertion
+});
+
 router.post('/new-moderator', async(req, res) => 
 {
 	email = req.body['modEmail'];
@@ -233,9 +258,9 @@ router.post('/remove-moderator', async(req,res) =>
 });
 	
 /* GET home page. */
-router.get('/', async function(req, res, next) 
-{	
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+router.get('/', async function(req, res, next)
+{
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved' AND isPinned = 'yes'`;
 	const query2 = sql`SELECT * FROM media`;
 	let postList = await executeQuery(query);
 	let mediaList = await executeQuery(query2);
@@ -289,7 +314,7 @@ router.get('/moderator', async function(req, res, next)
 		}
 		else
 		{
-			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`;
+			const query = sql`SELECT * FROM submissions`;
 			const query2 = sql`SELECT * FROM media`;
 			let list = await executeQuery(query);
 			let mediaList = await executeQuery(query2);

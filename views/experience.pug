@@ -3,12 +3,6 @@ extends layout
 block content
 	div.body
 		
-		script.
-			var nWidth = 0;
-			var nHeight = 0;
-			var m_id = "";
-			var image;
-		
 		div(class='row')
 			div(class='col-xl-2')
 			div(class='col-xl')
@@ -67,7 +61,7 @@ block content
 										h4 Anonymous
 
 					else
-						div(class='col-xl outline')
+						div(class='col-xl-4 outline')
 							if imgCount > 1
 								div.imgOnlyDiv
 									div(id=carouselId class='carousel slide' data-bs-ride='carousel')
@@ -106,7 +100,7 @@ block content
 										div(class='imgOnlyDiv')
 											img(src=img.path id=m_id alt=img.altText class='imgOnly')
 							
-						div(class='col-xl outline')
+						div(class='col-xl-4 outline')
 							div(class='card')
 								div(class='card-header')
 									h3(class='red') #[strong #{post.work}]
