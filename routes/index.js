@@ -87,7 +87,7 @@ function executeQuery(query)
 router.post('/submit_form', upload.array('media', 10), async(req, res) => 
 {
 	const { name, grade, school, anonymous, date, work, story } = req.body;
-	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved')`; 
+	const query = sql`INSERT INTO submissions (name, grade, school, anonymous, date, work, story, status, isPinned) VALUES (${name}, ${grade}, ${school}, ${anonymous}, ${date}, ${work}, ${story}, 'not approved', 'no')`; 
 	var results = await executeQuery(query);
 	
 	var postId = results["insertId"];
@@ -241,7 +241,7 @@ router.get('/moderator', async function(req, res, next)
 		}
 		else
 		{
-			const query = sql`SELECT * FROM submissions WHERE status = 'not approved'`;
+			const query = sql`SELECT * FROM submissions`;
 			const query2 = sql`SELECT * FROM media`;
 			let list = await executeQuery(query);
 			let mediaList = await executeQuery(query2);
