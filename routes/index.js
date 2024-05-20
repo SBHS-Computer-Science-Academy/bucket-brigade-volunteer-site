@@ -185,9 +185,9 @@ router.post('/remove-moderator', async(req,res) =>
 });
 	
 /* GET home page. */
-router.get('/', async function(req, res, next) 
-{	
-	const query = sql`SELECT * FROM submissions WHERE status = 'approved'`;
+router.get('/', async function(req, res, next)
+{
+	const query = sql`SELECT * FROM submissions WHERE status = 'approved' AND isPinned = 'yes'`;
 	const query2 = sql`SELECT * FROM media`;
 	let postList = await executeQuery(query);
 	let mediaList = await executeQuery(query2);

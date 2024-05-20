@@ -19,7 +19,7 @@ block content
 			
 			
 			each post in posts
-				if postCount < 3
+				if post.isPinned == 'yes'
 					- var imgCount = 0
 					- var carouselId = 'n' + post.id
 					- var carId = '#' + carouselId
