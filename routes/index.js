@@ -168,6 +168,22 @@ router.post('/deny-all', async(req, res) =>
 	res.redirect('/moderator'); // Redirect to a success page after removal
 });
 
+router.post('/new-pin', async(req, res) => 
+{
+	postid = req.body['postid'];
+	const query = sql`UPDATE submissions SET isPinned= yes WHERE id=(${postid})`;
+	await executeQuery(query);
+	res.redirect('/moderator'); // Redirect to a success page after insertion
+});
+
+router.post('/remove-pin', async(req,res) =>
+{
+	postid = req.body['postid'];
+	const query = sql`UPDATE submissions SET isPinned= no WHERE id=(${postid})`;
+	await executeQuery(query);
+	res.redirect('/moderator'); // Redirect to a success page after insertion
+});
+
 router.post('/new-moderator', async(req, res) => 
 {
 	email = req.body['modEmail'];
