@@ -171,7 +171,7 @@ router.post('/deny-all', async(req, res) =>
 router.post('/new-pin', async(req, res) => 
 {
 	postid = req.body['postid'];
-	const query = sql`UPDATE submissions SET isPinned= yes WHERE id=(${postid})`;
+	const query = sql`UPDATE submissions SET isPinned= 'yes' WHERE id=(${postid})`;
 	await executeQuery(query);
 	res.redirect('/moderator'); // Redirect to a success page after insertion
 });
@@ -179,7 +179,7 @@ router.post('/new-pin', async(req, res) =>
 router.post('/remove-pin', async(req,res) =>
 {
 	postid = req.body['postid'];
-	const query = sql`UPDATE submissions SET isPinned= no WHERE id=(${postid})`;
+	const query = sql`UPDATE submissions SET isPinned= 'no' WHERE id=(${postid})`;
 	await executeQuery(query);
 	res.redirect('/moderator'); // Redirect to a success page after insertion
 });

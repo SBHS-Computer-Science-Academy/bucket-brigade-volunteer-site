@@ -89,7 +89,7 @@ block content
 						//post template
 						- var ID = 0
 						each post in posts
-							if post.isPinned = 'no'
+							if post.isPinned == 'no'
 								- var carouselId = 'n' + ID
 								- var carId = '#' + carouselId
 								- var carItemCount = 0
@@ -112,7 +112,7 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/deny-all", method="POST")
+												form(action="/new-pin", method="POST")
 													input(type="hidden" name="postid" value=post.id)
 													button(type="submit" class="btn btn-danger") #[strong Pin Post]
 
@@ -168,7 +168,7 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/deny-all", method="POST")
+												form(action="/new-pin", method="POST")
 													input(type="hidden" name="postid" value=post.id)
 													button(type="submit" class="btn btn-danger") #[strong Pin Post]
 										
@@ -202,7 +202,7 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/deny-all", method="POST")
+												form(action="/remove-pin", method="POST")
 													input(type="hidden" name="postid" value=post.id)
 													button(type="submit" class="btn btn-danger") #[strong Unpin Post]
 
@@ -258,7 +258,7 @@ block content
 													h4 #{post.name}, Grade #{post.grade} at #{post.school}
 												else
 													h4 Anonymous
-												form(action="/deny-all", method="POST")
+												form(action="/remove-pin", method="POST")
 													input(type="hidden" name="postid" value=post.id)
 													button(type="submit" class="btn btn-danger") #[strong Unpin Post]
 										
