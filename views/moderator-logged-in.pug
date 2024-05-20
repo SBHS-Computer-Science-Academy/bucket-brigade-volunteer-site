@@ -72,3 +72,16 @@ block content
 				form(action="/new-moderator", method="POST")
 					input(type="text", name="modEmail", placeholder="Moderator email")
 					button(type="submit" class="btn btn-success btn-block") #[strong Add New Moderator]
+					
+	div(class="modal" id="Warning")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						h2(class="modal-title") #[strong Attention!]
+						button(type="button" class="btn-close" data-bs-dismiss="modal")
+		
+					div(class="modal-body")
+						p(style="font-size:25px") You are exceeding the featured post count.
+						p If you want to pin this post, you must unpin a pinned post first before pinning another one.
+					div(class="modal-footer")
+						button(type="button" class="btn btn-danger" data-bs-dismiss="modal") Close pop-up.
